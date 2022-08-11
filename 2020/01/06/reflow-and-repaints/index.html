@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://sheeepli.github.io').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="今天在写打印弹出框的时候的卡顿引起的想法。 但那是 antd 与插件之间的显示问题（虽然与我也有很大关系，毕竟插件是我用的）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="回流与重绘">
+<meta property="og:url" content="http://sheeepli.github.io/2020/01/06/reflow-and-repaints/index.html">
+<meta property="og:site_name" content="sheeep&#39;s blog">
+<meta property="og:description" content="今天在写打印弹出框的时候的卡顿引起的想法。 但那是 antd 与插件之间的显示问题（虽然与我也有很大关系，毕竟插件是我用的）。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-06T11:05:08.000Z">
+<meta property="article:modified_time" content="2022-08-11T15:38:47.885Z">
+<meta property="article:author" content="sheeepli">
+<meta property="article:tag" content="js">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="优化">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://sheeepli.github.io/2020/01/06/reflow-and-repaints/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>回流与重绘 | sheeep's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">sheeep's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://sheeepli.github.io/2020/01/06/reflow-and-repaints/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sheeepli">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sheeep's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          回流与重绘
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-06 19:05:08" itemprop="dateCreated datePublished" datetime="2020-01-06T19:05:08+08:00">2020-01-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-11 23:38:47" itemprop="dateModified" datetime="2022-08-11T23:38:47+08:00">2022-08-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今天在写打印弹出框的时候的卡顿引起的想法。</p>
+<p>但那是 antd 与插件之间的显示问题（虽然与我也有很大关系，毕竟插件是我用的）。</p>
+<a id="more"></a>
+
+<h2 id="什么是回流（重排）"><a href="#什么是回流（重排）" class="headerlink" title="什么是回流（重排）"></a>什么是回流（重排）</h2><p>回流（reflow），或叫做重排，当 render tree 中的一部分或全部元素的尺寸，布局，隐藏等改变而重新构建的过程就叫做回流。</p>
+<p>每个页面至少需要一次回流，即页面第一次加载的时候。</p>
+<h2 id="什么是重绘"><a href="#什么是重绘" class="headerlink" title="什么是重绘"></a>什么是重绘</h2><p>当 render tree 中的一些元素需要更新属性，而这些属性只是影响元素的外观、风格，而<strong>不影响布局</strong>时，则称为重绘（repaints）。</p>
+<p><strong><p style="color: red;">重绘不一定会回流，回流必然导致重绘。</p></strong></p>
+<h2 id="何时发生"><a href="#何时发生" class="headerlink" title="何时发生"></a>何时发生</h2><p>当页面布局和几何属性改变时，就会发生回流。</p>
+<ol>
+<li>添加或删除可见的 DOM 元素；</li>
+<li>元素位置改变；</li>
+<li>元素尺寸改变，包括边距、填充、边框、宽度、高度；</li>
+<li>内容改变；</li>
+<li>页面渲染初始化；</li>
+<li>浏览器矿口尺寸改变——resize 事件。</li>
+</ol>
+<p>当然上面的每种情况都会进行重绘。但是在不影响布局的情况下就只会发生重绘而不会发生回流。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> box = <span class="built_in">document</span>.getElementById(<span class="string">'box'</span>).style;</span><br><span class="line">box.padding = <span class="string">'2px'</span>; <span class="comment">// 回流 + 重绘</span></span><br><span class="line">box.border = <span class="string">'1px solid #000'</span>; <span class="comment">// 回流 + 重绘</span></span><br><span class="line">box.height = <span class="string">'20px'</span>; <span class="comment">// 回流 + 重绘</span></span><br><span class="line">box.background = <span class="string">'#000'</span>; <span class="comment">// 重绘</span></span><br><span class="line">box.color = <span class="string">'blue'</span>; <span class="comment">// 重绘</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>不可见的元素不影响重排和重绘。</strong></p>
+<h2 id="对于性能的影响"><a href="#对于性能的影响" class="headerlink" title="对于性能的影响"></a>对于性能的影响</h2><p>回流和重绘会不断发生，这是无可避免的。他们非常消耗资源，是导致网页性能低下的根本原因。</p>
+<p><strong>提高网页性能，就是要降低回流和重绘的成本，尽量少触发重新渲染。</strong></p>
+<p>现代浏览器做出了足够多的优化，会尽量把所有的变动集中在一起，拍成一个队列，然后一次性执行，尽量避免多次重新渲染。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">box.color = <span class="string">'red'</span>;</span><br><span class="line">div.marginTop = <span class="string">'10px'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>尽管上面有两个样式变动，但是浏览器只会触发一次回流和重绘。</p>
+<p>但是，在样式的写操作之后，如果有下面这些属性的读操作，都会引发浏览器的立即重新渲染。</p>
+<ul>
+<li>offsetTop / offsetLeft / offsetWidth / offsetHeight</li>
+<li>scrollTop / scrollLeft / scrollWidth / scrollHeight</li>
+<li>clientTop / clientLeft / clientWidth / clientHegiht</li>
+<li>getComputedStyle()</li>
+<li>getBoundingClientRect</li>
+</ul>
+<p>一般规则：</p>
+<ul>
+<li>样式表越简单，回流和重绘越快；</li>
+<li>回流和重绘的 DOM 元素层级越高，成本就越高；</li>
+<li>table 元素的回流和重绘成本要高于 div 元素。</li>
+</ul>
+<h2 id="怎么避免回流重绘，优化（提高）性能"><a href="#怎么避免回流重绘，优化（提高）性能" class="headerlink" title="怎么避免回流重绘，优化（提高）性能"></a>怎么避免回流重绘，优化（提高）性能</h2><ol>
+<li>DOM 的多个读操作应该放在一起，不要在两个读操作之间插入一个写操作。反之亦然；</li>
+<li>如果某个样式是通过回流得到的，那么最好缓存结果。避免下次用到的时候又要回流；</li>
+<li>不要一条一条改变样式，而是通过 class，或者 csstext 属性，一次性改变样式；</li>
+<li>尽量使用离线 DOM，而不是真实的网面 DOM 来改变元素样式；<ul>
+<li>操作 Document Fragment 对象，完成后再把这个对象加入 DOM。</li>
+<li>使用 CloneNode() 方法，在克隆的节点上进行操作，然后再用克隆的节点替换原始节点。</li>
+</ul>
+</li>
+<li>先将元素设为 display: none（一次回流和重绘），然后对这个节点进行多次操作，最后在恢复显示（一次回流和重绘）。这样就可以使用两次重新渲染代替多次重新渲染；</li>
+<li>position 属性为 absolute 或 fixed 的元素，重拍的开销会比较小，因为不用考虑对其他元素的影响；</li>
+<li>只在必要的时候才将元素的 display 属性设置为可见，因为不可见的元素不影响回流的重绘。visibility: hidden 的元素支队重绘有影响，不影响回流；</li>
+<li>使用虚拟 DOM 的脚本库，比如 React 等；</li>
+<li>使用 window.requestAnimationFrame()、window.requestldleCallback() 这两个方法调节重新渲染。</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html" target="_blank" rel="noopener">网页性能管理详解</a></li>
+<li><a href="https://www.codenong.com/js35073767a887/" target="_blank" rel="noopener">网页性能篇——回流与重绘</a></li>
+<li><a href="https://juejin.im/post/5c87bd375188257e3e47fdc5" target="_blank" rel="noopener">细谈页面回流与重绘</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/js/" rel="tag"># js</a>
+              <a href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag"># 前端</a>
+              <a href="/tags/%E4%BC%98%E5%8C%96/" rel="tag"># 优化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/02/diary-20-01/" rel="prev" title="diary-20-01">
+      <i class="fa fa-chevron-left"></i> diary-20-01
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/14/class/" rel="next" title="类">
+      类 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是回流（重排）"><span class="nav-number">1.</span> <span class="nav-text">什么是回流（重排）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是重绘"><span class="nav-number">2.</span> <span class="nav-text">什么是重绘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#何时发生"><span class="nav-number">3.</span> <span class="nav-text">何时发生</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对于性能的影响"><span class="nav-number">4.</span> <span class="nav-text">对于性能的影响</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么避免回流重绘，优化（提高）性能"><span class="nav-number">5.</span> <span class="nav-text">怎么避免回流重绘，优化（提高）性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">sheeepli</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sheeepli" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sheeepli" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2624791429@qq.com" title="E-Mail → mailto:2624791429@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sheeepli</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.5.0
+  </div>
+<span class="post-meta-divider">|</span>
+  <div id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://sheeepli.github.io').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="也不是第一次学习 vue 了，也不是最后一次学习 vue。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习 vue">
+<meta property="og:url" content="http://sheeepli.github.io/2020/04/15/learn-vue/index.html">
+<meta property="og:site_name" content="sheeep&#39;s blog">
+<meta property="og:description" content="也不是第一次学习 vue 了，也不是最后一次学习 vue。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-15T03:31:27.000Z">
+<meta property="article:modified_time" content="2022-08-11T15:38:47.877Z">
+<meta property="article:author" content="sheeepli">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://sheeepli.github.io/2020/04/15/learn-vue/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>学习 vue | sheeep's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">sheeep's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://sheeepli.github.io/2020/04/15/learn-vue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sheeepli">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sheeep's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          学习 vue
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-15 11:31:27" itemprop="dateCreated datePublished" datetime="2020-04-15T11:31:27+08:00">2020-04-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-11 23:38:47" itemprop="dateModified" datetime="2022-08-11T23:38:47+08:00">2022-08-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>也不是第一次学习 vue 了，也不是最后一次学习 vue。</p>
+<a id="more"></a>
+
+<h2 id="vuex"><a href="#vuex" class="headerlink" title="vuex"></a>vuex</h2><p>vuex 的 state 在刷新页面之后就回去清除设置好的值，变回默认值。</p>
+<p><strong>那 vuex 能做什么呢？</strong></p>
+<ol>
+<li><p>组件之间全局共享的数据</p>
+</li>
+<li><p>通过后端异步请求的数据</p>
+<p> 把通过后端异步请求的数据都纳入 vuex 状态管理，在 Action 中封装数据的增删改查等逻辑，这样可以一定程度上对前端的逻辑代码进行分层，使组件中的代码更多地关注页面交互与数据渲染等视图层的逻辑，而异步请求与状态数据的持久化等则交由 vuex 管理。</p>
+<p> demo:</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// State</span></span><br><span class="line"><span class="keyword">const</span> state = &#123;</span><br><span class="line">  userInfo: &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Mutaion</span></span><br><span class="line"><span class="keyword">const</span> mutations = &#123;</span><br><span class="line">  UPDATE_USER_INFO (state, payload) &#123;</span><br><span class="line">    state.userInfo = payload</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Action</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> fetchUserInfo = <span class="keyword">async</span> (&#123;commit&#125;) =&gt; &#123;</span><br><span class="line"><span class="comment">// ... 请求用户数据</span></span><br><span class="line"><span class="comment">// 调用 Mutaion 写入用户数据</span></span><br><span class="line">  commit(<span class="string">'UPDATE_USER_INFO'</span>, userInfo)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Component// 在组件中引入 Action</span></span><br><span class="line">...mapAction(&#123;</span><br><span class="line">  fetchUserInfoAction: <span class="string">`fetchUserInfo`</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 在 method 中调用 Action</span></span><br><span class="line"><span class="keyword">let</span> res = self.fetchUserInfoAction()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>可以通过登录者的 token 获取路由，并用 vuex 来存储路由，我们只需要写基本的路由配置，然后可以判断 vuex 中是否有路由判断是否要重新获取路由（如果有路由，则不用获取），而 token 的存储方式是在本地存储。<a href="/2020/04/15/learn-vue/#路由守卫">路由守卫</a></p>
+</li>
+</ol>
+<h2 id="vue"><a href="#vue" class="headerlink" title="vue"></a>vue</h2><h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><p>Vue.set(target, property, value) / vm.$set(target, proprety, value) 这个用于添加当前 data 列表下的某个对象（数组）的元素。</p>
+<p>直接赋值也是可以的，但是没法做到视图更新。</p>
+<p><strong>target 不能是根属性</strong>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    obj: &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  create() &#123;</span><br><span class="line">    <span class="keyword">this</span>.$<span class="keyword">set</span>(this.obj, 'a', 1)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>$event 的使用</p>
+<p>在 input 框或者其他的需要用到 change 之类的事件时，默认传参都是 e，我们是没法传第二个参数的，因为那样指定不了 e。</p>
+<p>这个时候就需要用到 $event 了</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> @<span class="attr">change</span>=<span class="string">"handleChange($event, 'emmm')"</span> <span class="attr">value</span>=<span class="string">""</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line">  methods: &#123;</span><br><span class="line">    handleChange(e, tag) &#123;</span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(e) <span class="comment">// 默认的 e</span></span></span><br><span class="line"><span class="javascript">      <span class="built_in">console</span>.log(tag) <span class="comment">// 传入的 emmm</span></span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="传值的方式"><a href="#传值的方式" class="headerlink" title="传值的方式"></a>传值的方式</h3><ul>
+<li><p>父传子</p>
+<ol>
+<li><p>通过 props 将数据传递给子组件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// Parent.vue</span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Child</span> <span class="attr">:parentData</span>=<span class="string">"parentData"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">  exprot <span class="keyword">default</span> &#123;</span></span><br><span class="line">    data() &#123;</span><br><span class="line"><span class="actionscript">      parentData: <span class="string">'this is parent\'s data'</span></span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">// Child.vue</span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  &#123;&#123;parentData&#125;&#125; <span class="comment">&lt;!-- this is parent's data --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="actionscript">    props: [<span class="string">'parentData'</span>] <span class="comment">// 这里必须使用 props 声明从父组件传入的 key</span></span></span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>子传父</p>
+<ol>
+<li><p>通过在子组件中触发事件实现向父组件传递数据</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// Parent.vue</span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Child</span> @<span class="attr">getChildData</span>=<span class="string">"getChild"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">  exprot <span class="keyword">default</span> &#123;</span></span><br><span class="line">    methods: &#123;</span><br><span class="line">      getChild(data) &#123;</span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(data) <span class="comment">// -&gt; this is child\' data</span></span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line">// Child.vue</span><br><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"button"</span> @<span class="attr">click</span>=<span class="string">"handleClick"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line">    methods: &#123;</span><br><span class="line">      handleClick() &#123;</span><br><span class="line"><span class="actionscript">        <span class="keyword">this</span>.$emit(<span class="string">'getChildData'</span>, <span class="string">'this is child\' data'</span>) <span class="comment">// 第一个参数为父组件传入的函数名称（key），之后的参数为传入该函数的参数</span></span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>其他（包括父子、子父、兄弟、祖孙）</p>
+<ol>
+<li>Event Bus 看下面的详细</li>
+<li><a href="/2020/03/24/simgle-pubsub/">发布订阅模式</a></li>
+<li>vuex 看上面</li>
+</ol>
+</li>
+</ul>
+<h3 id="event-bus"><a href="#event-bus" class="headerlink" title="event bus"></a>event bus</h3><p>非父子组件之间的通信一般通过一个空的 Vue 实例作为 中转站，也可以称之为 事件中心、event bus。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建事件中心实例</span></span><br><span class="line"><span class="keyword">let</span> bus = <span class="keyword">new</span> Vue()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在组件 A 中触发事件</span></span><br><span class="line">bus.$emit(<span class="string">'test'</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在组件 B 中接受事件</span></span><br><span class="line">bus.$on(<span class="string">'test'</span>, (id) =&gt; &#123;</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="vue-router"><a href="#vue-router" class="headerlink" title="vue-router"></a>vue-router</h2><p>route 给用户提供了一些属性的，如 name、path、params、query 等<br>router 提供了修改路由的方法，例如 push、replace 等</p>
+<h3 id="路由守卫"><a href="#路由守卫" class="headerlink" title="路由守卫"></a>路由守卫</h3><ol>
+<li><p>前置守卫 beforeEach</p>
+<p>通常用来做全局守卫，判断我们账号当前是否登录，然后能否跳转到相对应的页面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 路由配置</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 全局守卫</span></span><br><span class="line">router.beforeEach(<span class="function">(<span class="params">to, <span class="keyword">from</span> ,next</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 需要用到账号的页面</span></span><br><span class="line">  <span class="keyword">const</span> nextRoute = [<span class="string">'user'</span>]</span><br><span class="line">  <span class="keyword">const</span> loginRoute = [<span class="string">'login'</span>]</span><br><span class="line">  <span class="comment">// 当前是否登录</span></span><br><span class="line">  <span class="keyword">const</span> hasLogin = localStorage.getItem(<span class="string">'hasLogin'</span>)</span><br><span class="line">  <span class="comment">// 未登录且前往需要账号的页面，则跳转到登录页</span></span><br><span class="line">  <span class="keyword">if</span> (!hasLogin &amp;&amp; nextRoute.indexOf(to.name) &gt; <span class="number">-1</span>) &#123;</span><br><span class="line">    router.push(<span class="string">'/login'</span>)</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (hasLogin &amp;&amp; loginRoute.indexOf(to.name) &gt; <span class="number">-1</span>) &#123;</span><br><span class="line">    router.push(<span class="string">'/'</span>)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 其余的正常进行</span></span><br><span class="line">    next()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 导出路由</span></span><br></pre></td></tr></table></figure>
+
+<p>beforeEach 甚至可以用来动态加载路由。</p>
+<p><strong>思考：是否可以写在全局的 router 中，还是写在单独页面中？如果是全局 router 则有可能每次跳转页面都需要去调用这个 router.beforeEach 函数，但是写在单独页面中需要每个页面都写，或者必要的页面都需要写，会造成冗余。是否可以在登录点击的时候去获取这个路由列表，然后将这个路由列表放入 router 中，并保存在 vuex 中，但是每次重新打开页面都会清空 vuex 中的数据，所以什么时候要再去获取这个路由列表呢，还是保存在本地存储中呢？</strong>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 基础路由配置</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 全局守卫</span></span><br><span class="line">router.beforeEach(<span class="function">(<span class="params">to, <span class="keyword">from</span> ,next</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// 根据登录信息（token）获取相关路由</span></span><br><span class="line">  <span class="comment">// 根据获取到的路由信息添加路由</span></span><br><span class="line">  router.addRoutes(<span class="comment">/* 获取到的路由-数组*/</span>)</span><br><span class="line">  next()</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// 导出路由</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="混入"><a href="#混入" class="headerlink" title="混入"></a>混入</h3><p>混入 (mixin) 提供了一种非常灵活的方式，来分发 Vue 组件中的可复用功能。一个混入对象可以包含任意组件选项。</p>
+<p>当组件使用混入对象时，所有混入对象的选项将被“混合”进入该组件本身的选项。</p>
+<p>当组件本身的选项名称与混入对象名称相同时，使用组件本身的选项。</p>
+<ul>
+<li><p>全局混入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  mixins: []</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>局部混入</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  name: <span class="string">''</span>,</span><br><span class="line">  mixins: []</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="vue-cli"><a href="#vue-cli" class="headerlink" title="vue-cli"></a>vue-cli</h2><p>vue-cli 脚手架用于快速搭建基础的模块。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue create project</span><br></pre></td></tr></table></figure>
+
+<p>当我们输入这行指令之后，允许我们去选择所需要的模块等内容，然后根据这些内容从指定的 github 仓库下载代码。</p>
+<p>讲 vue-cli 主要讲的应该是他的 webpack 配置。</p>
+<p>为什么要配置？还不是为了减少页面初始化的时间，防止首屏加载时间太长，以及拆包啊，代码加密啊，控制台打印啊等一系列东西。</p>
+<p>默认使用 vue-cli 搭建的项目是没有 vue.config.js 这个文件的，所以需要新建一个在根目录。</p>
+<p>众所周知，webpack 是基于 node 的，所以我们可以在配置文件中去使用 node 的语法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们必须要将模块导出，这是语法的规定啊。</p>
+<p>vue-cli 还内置了一个 add 指令，允许我们直接去加载一些框架，比如 element-ui</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue add element-ui</span><br></pre></td></tr></table></figure>
+
+<p>当然，vue-cli 还有之前的 init 指令等很多指令，只需要 <code>-h</code> 一下就可以知道了。</p>
+<h3 id="vue-cli-配置"><a href="#vue-cli-配置" class="headerlink" title="vue-cli 配置"></a>vue-cli 配置</h3><p>vue-cli 内置了很多配置，像各种对 css 的预处理 loader。</p>
+<p>还可以使用 configureWebpack，chainWebpack 分别对接 webpack 的配置和 webpack-chain</p>
+<p><strong>当使用的是 ts 的时候，怎么写这个配置文件还需要研究一下</strong>。</p>
+<h2 id="关于-vue-3-0-bate-我想说"><a href="#关于-vue-3-0-bate-我想说" class="headerlink" title="关于 vue 3.0 bate 我想说"></a>关于 vue 3.0 bate 我想说</h2><p>我真的学不来了，你们不要更新那么快。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag"># 前端</a>
+              <a href="/tags/vue/" rel="tag"># vue</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/29/higher-order-components/" rel="prev" title="高阶函数（HOF） -> 高阶组件（HOC）">
+      <i class="fa fa-chevron-left"></i> 高阶函数（HOF） -> 高阶组件（HOC）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/12/git-command/" rel="next" title="git 指令">
+      git 指令 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#vuex"><span class="nav-number">1.</span> <span class="nav-text">vuex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue"><span class="nav-number">2.</span> <span class="nav-text">vue</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础"><span class="nav-number">2.1.</span> <span class="nav-text">基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传值的方式"><span class="nav-number">2.2.</span> <span class="nav-text">传值的方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#event-bus"><span class="nav-number">2.3.</span> <span class="nav-text">event bus</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue-router"><span class="nav-number">3.</span> <span class="nav-text">vue-router</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#路由守卫"><span class="nav-number">3.1.</span> <span class="nav-text">路由守卫</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#混入"><span class="nav-number">3.2.</span> <span class="nav-text">混入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vue-cli"><span class="nav-number">4.</span> <span class="nav-text">vue-cli</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vue-cli-配置"><span class="nav-number">4.1.</span> <span class="nav-text">vue-cli 配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于-vue-3-0-bate-我想说"><span class="nav-number">5.</span> <span class="nav-text">关于 vue 3.0 bate 我想说</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">sheeepli</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sheeepli" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sheeepli" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2624791429@qq.com" title="E-Mail → mailto:2624791429@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sheeepli</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.5.0
+  </div>
+<span class="post-meta-divider">|</span>
+  <div id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

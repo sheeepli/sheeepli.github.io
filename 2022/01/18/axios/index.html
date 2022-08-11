@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://sheeepli.github.io').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="开始了开始了，一点点搞起来。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="axios">
+<meta property="og:url" content="http://sheeepli.github.io/2022/01/18/axios/index.html">
+<meta property="og:site_name" content="sheeep&#39;s blog">
+<meta property="og:description" content="开始了开始了，一点点搞起来。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-18T07:35:32.000Z">
+<meta property="article:modified_time" content="2022-08-11T15:38:47.860Z">
+<meta property="article:author" content="sheeepli">
+<meta property="article:tag" content="基础">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://sheeepli.github.io/2022/01/18/axios/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>axios | sheeep's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">sheeep's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://sheeepli.github.io/2022/01/18/axios/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sheeepli">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sheeep's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          axios
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-18 15:35:32" itemprop="dateCreated datePublished" datetime="2022-01-18T15:35:32+08:00">2022-01-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-11 23:38:47" itemprop="dateModified" datetime="2022-08-11T23:38:47+08:00">2022-08-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>开始了开始了，一点点搞起来。</p>
+<a id="more"></a>
+
+<h2 id="关于我在写-axios-时候遇到的问题"><a href="#关于我在写-axios-时候遇到的问题" class="headerlink" title="关于我在写 axios 时候遇到的问题"></a>关于我在写 axios 时候遇到的问题</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>首先我使用的是 yarn create react-app –template typescript 创建基础的 react 项目脚手架</p>
+<p>然后使用的是 yarn eslint –init 去控制格式，其实这个我还没有搞好，好多规则都不知道怎么回事，保存跟格式化的格式都不一样</p>
+<p>之后安装 axios</p>
+<h3 id="跨域"><a href="#跨域" class="headerlink" title="跨域"></a>跨域</h3><p>在尝试 axios 的时候遇到的第一个问题就是跨域</p>
+<p>首先在 package.json 中，我们可以使用字符串去指定需要代理的地址，如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"axios-react-test"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"0.1.0"</span>,</span><br><span class="line">  <span class="attr">"private"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="comment">// ...其他配置</span></span><br><span class="line">  <span class="attr">"proxy"</span>: <span class="string">"http://hrms.test.bbkedu.com/"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，这样也够用，但是项目大起来之后就会需要根据不同的路径匹配不同的请求地址，所以还需要配置其他的东西。</p>
+<p>既然 package.json 可以配置 proxy，那我们可以不可以使用对象来配置呢？</p>
+<p>果断试试看：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"axios-react-test"</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="string">"0.1.0"</span>,</span><br><span class="line">  <span class="attr">"private"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="comment">// ...其他配置</span></span><br><span class="line">  <span class="attr">"proxy"</span>: &#123;</span><br><span class="line">    <span class="attr">"/api/**"</span>: &#123;</span><br><span class="line">      <span class="attr">"target"</span>: <span class="string">"http://hrms.test.bbkedu.com/"</span>,</span><br><span class="line">      <span class="attr">"changeOrigin"</span>: <span class="literal">true</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"/note/**"</span>: &#123;</span><br><span class="line">      <span class="attr">"target"</span>: <span class="string">"http://bpm2.test.bbkedu.com/"</span>,</span><br><span class="line">      <span class="attr">"changeOrigin"</span>: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p style="color: red">When specified, "proxy" in package.json must be a string.</p>
+<p style="color: red">Instead, the type of "proxy" was "object".</p>
+<p style="color: red">Either remove "proxy" from package.json, or make it a string.</p>
+</blockquote>
+<p>重新启动项目就会看到上面这几个大字，大致意思就是不允许使用对象，只能是字符串</p>
+<p>_据说在 create-react-app 2.0.0 的版本之前，可是使用对象来配置代理_，反正我是没有试过。</p>
+<p>那我们该怎么配置呢？这是个好问题，而<a href="https://create-react-app.dev/docs/proxying-api-requests-in-development" target="_blank" rel="noopener">官方文档</a>已经给出了解决方法</p>
+<ol>
+<li><p>安装 <code>http-proxy-middleware</code> 中间件，umi 的代理也是用的这个，只不过包裹在了 umirc 中</p>
+</li>
+<li><p>在 src/ 下创建一个 <code>setupProxy.js</code> 必须是 <strong>.js</strong> 其他的不认的哈 <strong>.ts</strong> 也不认。</p>
+</li>
+<li><p>编写 <code>setupProxy.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这里也不能够使用 import/export 模式，只能使用 commonJs。就很🐕</span></span><br><span class="line"><span class="keyword">const</span> &#123; createProxyMiddleware &#125; = <span class="built_in">require</span>(<span class="string">"http-proxy-middleware"</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span> (<span class="params">app</span>) </span>&#123;</span><br><span class="line">  app.use(</span><br><span class="line">    <span class="string">"/api"</span>,</span><br><span class="line">    createProxyMiddleware(&#123;</span><br><span class="line">      target: <span class="string">"http://hrms.test.bbkedu.com"</span>,</span><br><span class="line">      changeOrigin: <span class="literal">true</span>,</span><br><span class="line">    &#125;)</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>第二点中提到固定名字文件的，是 react 拆包之后某个文件中引入了这个文件，固定了名字。😭 我还没有拆过包，或者已经忘记了。</p>
+<blockquote>
+<p>将 create-react-app 解包后，可以在 config 文件夹下找到配置</p>
+<p>在 config/path.js 中存在 proxySetup: resolveApp(‘src/setupProxy.js’),</p>
+<p>而 proxySetup 是只在 webpackDevServer.config.js 文件中使用，也就是说只在开发时使用</p>
+</blockquote>
+<p>上面这三行来自<a href="https://www.cnblogs.com/spirit-ling/p/13327917.html" target="_blank" rel="noopener">Spirit Ling 博客</a></p>
+<h3 id="基本实现封装"><a href="#基本实现封装" class="headerlink" title="基本实现封装"></a>基本实现封装</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axios, &#123; AxiosRequestConfig &#125; <span class="keyword">from</span> <span class="string">"axios"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; TOKEN &#125; <span class="keyword">from</span> <span class="string">"../config"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> Data &#123;</span><br><span class="line">  classgroup: <span class="built_in">string</span>;</span><br><span class="line">  company: <span class="built_in">string</span>;</span><br><span class="line">  department: <span class="built_in">string</span>;</span><br><span class="line">  id: <span class="built_in">string</span>;</span><br><span class="line">  rawDate: <span class="built_in">string</span>;</span><br><span class="line">  rootdepartment: <span class="built_in">string</span>;</span><br><span class="line">  trueName: <span class="built_in">string</span>;</span><br><span class="line">  userNo: <span class="built_in">string</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> NoRecordPageParams &#123;</span><br><span class="line">  userNo: <span class="built_in">string</span>;</span><br><span class="line">  size: <span class="built_in">number</span>;</span><br><span class="line">  index: <span class="built_in">number</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> CancelToken = axios.CancelToken;</span><br><span class="line"><span class="keyword">const</span> source = CancelToken.source();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 添加请求拦截器</span></span><br><span class="line"><span class="comment">// 拦截器可以做什么操作？？？</span></span><br><span class="line">axios.interceptors.request.use(</span><br><span class="line">  <span class="function"><span class="keyword">function</span> (<span class="params">config</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 在发送请求之前做些什么</span></span><br><span class="line">    <span class="comment">// 添加/修改 TOKEN 等 headers 信息</span></span><br><span class="line">    <span class="built_in">console</span>.log(config);</span><br><span class="line">    config.headers = &#123;</span><br><span class="line">      ...config.headers,</span><br><span class="line">      Authorization: <span class="string">`Bearer <span class="subst">$&#123;TOKEN&#125;</span>`</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">    config.timeout = <span class="number">10000</span>;</span><br><span class="line">    <span class="keyword">return</span> config;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 对请求错误做些什么</span></span><br><span class="line">    <span class="comment">// 能够拦截错误，程序不再往下执行？</span></span><br><span class="line">    <span class="comment">// 能不能做什么操作让程序往下执行呢，比如按钮loading状态恢复？</span></span><br><span class="line">    <span class="comment">// 还是说只能用trycatch</span></span><br><span class="line">    <span class="comment">// console.log('请求错误', error)</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error);</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">axios.interceptors.response.use(</span><br><span class="line">  (value) =&gt; value,</span><br><span class="line">  <span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"返回错误"</span>, error);</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(error);</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">request</span>&lt;<span class="title">P</span>, <span class="title">R</span>&gt;(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">  url: <span class="built_in">string</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">  config: AxiosRequestConfig&lt;P&gt;</span></span></span><br><span class="line"><span class="function"><span class="params"></span>): <span class="title">Promise</span>&lt;<span class="title">R</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> axios(&#123;</span><br><span class="line">      ...config,</span><br><span class="line">      url,</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="comment">// 返回内容为 blob 格式的情况</span></span><br><span class="line">    <span class="keyword">if</span> (res.headers[<span class="string">"content-disposition"</span>]) &#123;</span><br><span class="line">      <span class="keyword">const</span> response = &#123;</span><br><span class="line">        title: <span class="built_in">decodeURI</span>(</span><br><span class="line">          res.headers[<span class="string">"content-disposition"</span>].split(<span class="string">";"</span>)[<span class="number">1</span>].split(<span class="string">"filename="</span>)[<span class="number">1</span>]</span><br><span class="line">        ),</span><br><span class="line">        blob: res.data,</span><br><span class="line">      &#125;;</span><br><span class="line">      <span class="keyword">return</span> response <span class="keyword">as</span> unknown <span class="keyword">as</span> R;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 返回正常数据，且错误的情况</span></span><br><span class="line">    <span class="keyword">if</span> (res &amp;&amp; res.data.code !== <span class="string">"0000001"</span>) &#123;</span><br><span class="line">      <span class="built_in">console</span>.error(<span class="string">"程序错误"</span>, res.data.desc);</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(<span class="string">"Reject123"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 返回正常数据</span></span><br><span class="line">    <span class="keyword">return</span> res.data;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">    <span class="comment">// console.log(error)</span></span><br><span class="line">    <span class="keyword">if</span> (axios.isCancel(error)) &#123;</span><br><span class="line">      <span class="built_in">console</span>.error(<span class="string">"取消请求"</span>, error);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 处理错误</span></span><br><span class="line">      <span class="built_in">console</span>.error(<span class="string">"other error"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Promise</span>.reject(<span class="string">"Reject"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询全部</span></span><br><span class="line"><span class="comment">// 查询组织</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getOrgs = <span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">await</span> axios.get(<span class="string">"/api/org"</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 按条件查找</span></span><br><span class="line"><span class="comment">// 获取无打卡记录</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> getNoRecordPage = <span class="keyword">async</span> (params: NoRecordPageParams) =&gt; &#123;</span><br><span class="line">  <span class="comment">// console.log(source.token)</span></span><br><span class="line">  <span class="keyword">return</span> request&lt;NoRecordPageParams, Data[]&gt;(</span><br><span class="line">    <span class="string">"/api/attendance/getNoRecordPage"</span>,</span><br><span class="line">    &#123;</span><br><span class="line">      method: <span class="string">"GET"</span>,</span><br><span class="line">      params,</span><br><span class="line">      cancelToken: source.token,</span><br><span class="line">    &#125;</span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取无打卡记录</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> exportNoRecord = <span class="keyword">async</span> (</span><br><span class="line">  params: Pick&lt;NoRecordPageParams, <span class="string">"userNo"</span>&gt;</span><br><span class="line">) =&gt; &#123;</span><br><span class="line">  source.cancel(<span class="string">"cancel fetch"</span>);</span><br><span class="line">  <span class="keyword">return</span> request&lt;</span><br><span class="line">    Pick&lt;NoRecordPageParams, <span class="string">"userNo"</span>&gt;,</span><br><span class="line">    &#123;</span><br><span class="line">      title: <span class="built_in">string</span>;</span><br><span class="line">      blob: Blob;</span><br><span class="line">    &#125;</span><br><span class="line">  &gt;(<span class="string">"/api/attendance/export/NoRecord"</span>, &#123;</span><br><span class="line">    method: <span class="string">"GET"</span>,</span><br><span class="line">    params,</span><br><span class="line">    responseType: <span class="string">"blob"</span>,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>其中需要拎出来单独讲的一部分内容</p>
+<ol>
+<li><p>下载</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (res.headers[<span class="string">"content-disposition"</span>]) &#123;</span><br><span class="line">  <span class="keyword">const</span> response = &#123;</span><br><span class="line">    title: <span class="built_in">decodeURI</span>(</span><br><span class="line">      res.headers[<span class="string">"content-disposition"</span>].split(<span class="string">";"</span>)[<span class="number">1</span>].split(<span class="string">"filename="</span>)[<span class="number">1</span>]</span><br><span class="line">    ),</span><br><span class="line">    blob: res.data,</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> response <span class="keyword">as</span> unknown <span class="keyword">as</span> R;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>按照常理来说，下载文件时后台返回给前端 headers 中需要包含<code>content-disposition</code>属性，其他请求则没有，它是一个字符串，包含了 filename 属性，可以给 blob 做文件名。</p>
+<p>我们在请求下载的时候需要添加额外的请求参数 <code>responseType: &#39;blob&#39;</code>，告知服务器返回的是数据流。</p>
+</li>
+<li><p>取消请求</p>
+<p><code>cancelToken: source.token</code> 确实能够取消请求，但是后续的请求都会报错（直接取消）</p>
+</li>
+<li><p>请求中间件（请求拦截）</p>
+<p>当大多数的请求都用到了某个 config 配置（例如 token、timeout 等），就可以考虑将这个配置放进 <code>axios.interceptors.request.use</code> 中，具体看上面代码。返回结果也是，当然是写在 <code>response</code> 中。</p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag"># 基础</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/17/%E5%85%A8%E5%B1%80%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86/" rel="prev" title="全局状态管理">
+      <i class="fa fa-chevron-left"></i> 全局状态管理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/20/functions/" rel="next" title="一些函数">
+      一些函数 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于我在写-axios-时候遇到的问题"><span class="nav-number">1.</span> <span class="nav-text">关于我在写 axios 时候遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">1.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跨域"><span class="nav-number">1.2.</span> <span class="nav-text">跨域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本实现封装"><span class="nav-number">1.3.</span> <span class="nav-text">基本实现封装</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">sheeepli</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sheeepli" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sheeepli" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2624791429@qq.com" title="E-Mail → mailto:2624791429@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sheeepli</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.5.0
+  </div>
+<span class="post-meta-divider">|</span>
+  <div id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

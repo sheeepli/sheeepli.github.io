@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://sheeepli.github.io').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="挑选了一些比较经典的算法题，做完多巩固。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode">
+<meta property="og:url" content="http://sheeepli.github.io/2022/02/21/leetcode/index.html">
+<meta property="og:site_name" content="sheeep&#39;s blog">
+<meta property="og:description" content="挑选了一些比较经典的算法题，做完多巩固。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-02-21T00:57:40.000Z">
+<meta property="article:modified_time" content="2022-08-11T15:45:55.906Z">
+<meta property="article:author" content="sheeepli">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://sheeepli.github.io/2022/02/21/leetcode/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>leetcode | sheeep's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">sheeep's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://sheeepli.github.io/2022/02/21/leetcode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sheeepli">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sheeep's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          leetcode
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-02-21 08:57:40" itemprop="dateCreated datePublished" datetime="2022-02-21T08:57:40+08:00">2022-02-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-11 23:45:55" itemprop="dateModified" datetime="2022-08-11T23:45:55+08:00">2022-08-11</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>挑选了一些比较经典的算法题，做完多巩固。</p>
+<a id="more"></a>
+
+<h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><ul>
+<li><input disabled="" type="checkbox"> 动态规划</li>
+<li><input disabled="" type="checkbox"> 贪心算法</li>
+</ul>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><h3 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h3><ul>
+<li><input checked="" disabled="" type="checkbox"> 11 中等 <a href="#盛最多水的容器">盛最多水的容器</a> 2022-02-21</li>
+<li><input checked="" disabled="" type="checkbox"> 26 简单 <a href="#删除排序数组中重复项">删除排序数组中重复项</a> 2022-02-22</li>
+<li><input checked="" disabled="" type="checkbox"> 66 简单 <a href="#加一">加一</a></li>
+<li><input checked="" disabled="" type="checkbox"> 70 简单 <a href="#爬楼梯">爬楼梯</a> 2022-02-24</li>
+<li><input disabled="" type="checkbox"> 88 简单 合并两个有序数组</li>
+<li><input checked="" disabled="" type="checkbox"> 189 中等 <a href="#旋转数组">旋转数组</a> 2022-02-28</li>
+<li><input checked="" disabled="" type="checkbox"> 283 简单 <a href="#移动零">移动零</a> 2022-02-28</li>
+</ul>
+<h3 id="Linked-List"><a href="#Linked-List" class="headerlink" title="Linked List"></a>Linked List</h3><ul>
+<li><input disabled="" type="checkbox"> 21 中等 合并两个有序链表</li>
+<li><input disabled="" type="checkbox"> 24 中等 两两交换链表中的节点</li>
+<li><input disabled="" type="checkbox"> 25 困难 K 个一组翻转链表</li>
+<li><input disabled="" type="checkbox"> 141 简单 环形链表</li>
+<li><input disabled="" type="checkbox"> 142 中等 环形链表II</li>
+<li><input disabled="" type="checkbox"> 206 简单 反转链表</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><ul>
+<li><input checked="" disabled="" type="checkbox"> 1 简单 <a href="#两数之和">两数之和</a> 2022-02-22</li>
+<li><input disabled="" type="checkbox"> 15 中等 三数之和</li>
+<li><input disabled="" type="checkbox"> 20 简单 有效的括号</li>
+<li><input disabled="" type="checkbox"> 42 困难 接雨水</li>
+<li><input disabled="" type="checkbox"> 49 中等 字母异位词分组</li>
+<li><input disabled="" type="checkbox"> 84 困难 柱状图中最大的矩形</li>
+<li><input disabled="" type="checkbox"> 155 简单 最小栈</li>
+<li><input disabled="" type="checkbox"> 239 困难 滑动窗口最大值</li>
+<li><input disabled="" type="checkbox"> 242 简单 有效的字母异位词</li>
+<li><input disabled="" type="checkbox"> 641 中等 设计循环双端队列</li>
+</ul>
+<h3 id="Binary-Tree"><a href="#Binary-Tree" class="headerlink" title="Binary Tree"></a>Binary Tree</h3><ul>
+<li><input disabled="" type="checkbox"> 22 中等 括号生成</li>
+<li><input disabled="" type="checkbox"> 94 中等 二叉树的中序遍历</li>
+<li><input disabled="" type="checkbox"> 98 中等 验证二叉搜索树</li>
+<li><input disabled="" type="checkbox"> 104 简单 二叉树的最大深度</li>
+<li><input disabled="" type="checkbox"> 105 中等 从前序与中序遍历序列构造二叉树</li>
+<li><input disabled="" type="checkbox"> 111 简单 二叉树的最小深度</li>
+<li><input disabled="" type="checkbox"> 144 中等 二叉树的前序遍历</li>
+<li><input disabled="" type="checkbox"> 226 简单 翻转二叉树</li>
+<li><input disabled="" type="checkbox"> 230 中等 二叉搜索树中第K小的元素</li>
+<li><input disabled="" type="checkbox"> 236 中等 二叉树的最近公共祖先</li>
+<li><input disabled="" type="checkbox"> 297 困难 二叉树的序列化与反序列化</li>
+<li><input disabled="" type="checkbox"> 429 简单 N叉树的层序遍历</li>
+<li><input disabled="" type="checkbox"> 589 简单 N叉树的前序遍历</li>
+<li><input disabled="" type="checkbox"> 590 简单 N叉树的后序遍历</li>
+</ul>
+<h3 id="分治"><a href="#分治" class="headerlink" title="分治"></a>分治</h3><ul>
+<li><input disabled="" type="checkbox"> 17 中等 电话号码的字母组合</li>
+<li><input disabled="" type="checkbox"> 50 中等 Pow(x, n)</li>
+<li><input disabled="" type="checkbox"> 78 中等 子集</li>
+<li><input disabled="" type="checkbox"> 169 简单 求众数</li>
+</ul>
+<h3 id="遍历和搜索"><a href="#遍历和搜索" class="headerlink" title="遍历和搜索"></a>遍历和搜索</h3><ul>
+<li><input disabled="" type="checkbox"> 102 中等 二叉树的层次遍历</li>
+<li><input disabled="" type="checkbox"> 126 困难 单词接龙 II</li>
+<li><input disabled="" type="checkbox"> 127 中等 单词接龙</li>
+<li><input disabled="" type="checkbox"> 200 中等 岛屿数量</li>
+<li><input disabled="" type="checkbox"> 433 中等 最小基因变化</li>
+<li><input disabled="" type="checkbox"> 515 中等 在每个树行中找最大值</li>
+<li><input disabled="" type="checkbox"> 529 中等 扫雷游戏</li>
+</ul>
+<h3 id="剪枝"><a href="#剪枝" class="headerlink" title="剪枝"></a>剪枝</h3><ul>
+<li><input disabled="" type="checkbox"> 36 中等 有效的数独</li>
+<li><input disabled="" type="checkbox"> 37 困难 解数独</li>
+<li><input disabled="" type="checkbox"> 51 困难 N皇后</li>
+</ul>
+<h3 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h3><ul>
+<li><input disabled="" type="checkbox"> 33 中等 搜索旋转排序数组</li>
+<li><input disabled="" type="checkbox"> 69 简单 x 的平方根</li>
+<li><input disabled="" type="checkbox"> 367 简单 有效的完全平方数</li>
+</ul>
+<h3 id="贪心"><a href="#贪心" class="headerlink" title="贪心"></a>贪心</h3><ul>
+<li><input disabled="" type="checkbox"> 122 简单 买卖股票的最佳时机 II</li>
+<li><input disabled="" type="checkbox"> 455 简单 分发饼干</li>
+<li><input disabled="" type="checkbox"> 860 简单 柠檬水找零</li>
+<li><input disabled="" type="checkbox"> 874 简单 模拟行走机器人</li>
+</ul>
+<h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><ul>
+<li><input disabled="" type="checkbox"> 32 困难 最长有效括号</li>
+<li><input disabled="" type="checkbox"> 45 困难 跳跃游戏 II</li>
+<li><input disabled="" type="checkbox"> 55 困难 跳跃游戏</li>
+<li><input disabled="" type="checkbox"> 62 中等 不同路径</li>
+<li><input disabled="" type="checkbox"> 63 中等 不同路径 II</li>
+<li><input disabled="" type="checkbox"> 64 中等 最小路径和</li>
+<li><input disabled="" type="checkbox"> 72 困难 编辑距离</li>
+<li><input disabled="" type="checkbox"> 76 困难 最小覆盖子串</li>
+<li><input disabled="" type="checkbox"> 91 中等 解码方法</li>
+<li><input disabled="" type="checkbox"> 120 中等 三角形最小路径和</li>
+<li><input disabled="" type="checkbox"> 121 简单 买卖股票的最佳时机</li>
+<li><input disabled="" type="checkbox"> 122 简单 买卖股票的最佳时机 II</li>
+<li><input disabled="" type="checkbox"> 123 困难 买卖股票的最佳时机 III</li>
+<li><input disabled="" type="checkbox"> 152 中等 乘积最大子序列</li>
+<li><input disabled="" type="checkbox"> 188 困难 买卖股票的最佳时机 IV</li>
+<li><input disabled="" type="checkbox"> 198 简单 打家劫舍</li>
+<li><input disabled="" type="checkbox"> 213 中等 打家劫舍 II</li>
+<li><input disabled="" type="checkbox"> 221 中等 最大正方形</li>
+<li><input disabled="" type="checkbox"> 279 中等 完全平方数</li>
+<li><input disabled="" type="checkbox"> 322 中等 零钱兑换</li>
+<li><input disabled="" type="checkbox"> 518 中等 零钱兑换 II</li>
+<li><input disabled="" type="checkbox"> 309 中等 最佳买卖股票时机含冷冻期</li>
+<li><input disabled="" type="checkbox"> 312 困难 戳气球</li>
+<li><input disabled="" type="checkbox"> 363 困难 矩形区域不超过 K 的最大数值和</li>
+<li><input disabled="" type="checkbox"> 403 困难 青蛙过河</li>
+<li><input disabled="" type="checkbox"> 410 困难 分割数组的最大值</li>
+<li><input disabled="" type="checkbox"> 552 困难 学生出勤记录 II</li>
+<li><input disabled="" type="checkbox"> 621 中等 任务调度器</li>
+<li><input disabled="" type="checkbox"> 647 中等 回文子串</li>
+<li><input disabled="" type="checkbox"> 714 中等 买卖股票的最佳时机含手续费</li>
+<li><input disabled="" type="checkbox"> 980 困难 不同路径 III</li>
+</ul>
+<h3 id="树"><a href="#树" class="headerlink" title="树"></a>树</h3><ul>
+<li><input disabled="" type="checkbox"> 208 中等 实现 Trie (前缀树)</li>
+<li><input disabled="" type="checkbox"> 212 困难 单词搜索 II</li>
+</ul>
+<h3 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h3><ul>
+<li><input disabled="" type="checkbox"> 52 困难 N皇后 II</li>
+<li><input disabled="" type="checkbox"> 136 简单 只出现一次的数字</li>
+<li><input disabled="" type="checkbox"> 190 简单 颠倒二进制位</li>
+<li><input disabled="" type="checkbox"> 191 简单 位1的个数</li>
+<li><input disabled="" type="checkbox"> 231 简单 2的幂</li>
+<li><input disabled="" type="checkbox"> 338 中等 比特位计数</li>
+</ul>
+<h3 id="并查集"><a href="#并查集" class="headerlink" title="并查集"></a>并查集</h3><ul>
+<li><input disabled="" type="checkbox"> 130 中等 被围绕的区域</li>
+<li><input disabled="" type="checkbox"> 200 中等 岛屿数量</li>
+<li><input disabled="" type="checkbox"> 547 中等 朋友圈</li>
+</ul>
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><h3 id="盛最多水的容器"><a href="#盛最多水的容器" class="headerlink" title="盛最多水的容器"></a>盛最多水的容器</h3><p>可以使用两个 for 循环处理，但是当数据量达到某个成都的时候就会溢出。</p>
+<p>比较好的方法就是使用<strong>双指针</strong>，时间复杂度：O(n)，空间复杂度：O(1)</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 双指针</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">maxArea</span>(<span class="params">height: <span class="built_in">number</span>[]</span>): <span class="title">number</span> </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> max = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">let</span> start = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">let</span> end = height.length - <span class="number">1</span>;</span><br><span class="line">  <span class="comment">// 当边界相遇时停止循环</span></span><br><span class="line">  <span class="keyword">while</span> (start &lt; end) &#123;</span><br><span class="line">    <span class="comment">// 容器大小跟宽度与高度有关，取**左右边界的小值**与下标差的乘积。</span></span><br><span class="line">    <span class="keyword">const</span> newWater = (end - start) * <span class="built_in">Math</span>.min(height[end], height[start]);</span><br><span class="line">    <span class="keyword">if</span> (newWater &gt; max) max = newWater;</span><br><span class="line">    <span class="comment">// 容器大小跟宽度与高度有关，则当小值变大之后乘积变大（跟大值无关）</span></span><br><span class="line">    <span class="keyword">if</span> (height[start] &gt; height[end]) &#123;</span><br><span class="line">      end--;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      start++;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> max;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="两数之和"><a href="#两数之和" class="headerlink" title="两数之和"></a>两数之和</h3><p>提示：可以使用暴力循环，也可以使用hash表。</p>
+<p>使用暴力循环可能会超时，属于时间换空间。时间复杂度：O(n^2)，空间复杂度：O(1)。</p>
+<p>使用hash表属于空间换时间。时间复杂度：O(n)，空间复杂度：O(n)。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* [1] 两数之和</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">twoSum</span>(<span class="params">nums: <span class="built_in">number</span>[], target: <span class="built_in">number</span></span>): <span class="title">number</span>[] </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> map = <span class="keyword">new</span> Map&lt;<span class="built_in">number</span>, <span class="built_in">number</span>&gt;();</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> num = nums[i];</span><br><span class="line">    map.set(num, i);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> num = nums[i];</span><br><span class="line">    <span class="keyword">if</span> (map.get(target - num) &amp;&amp; i !== map.get(target - num)) &#123;</span><br><span class="line">      <span class="keyword">return</span> [i, map.get(target - num)];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除排序数组中重复项"><a href="#删除排序数组中重复项" class="headerlink" title="删除排序数组中重复项"></a>删除排序数组中重复项</h3><p>题目的要求是返回不重复的长度，所以可以使用双指针（如果数组不是排序的，可以先排序之后使用这个方法）。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">removeDuplicates</span>(<span class="params">nums: <span class="built_in">number</span>[]</span>): <span class="title">number</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> n = nums.length;</span><br><span class="line">  <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> n;</span><br><span class="line">  <span class="keyword">let</span> slow = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">let</span> fast = <span class="number">1</span>;</span><br><span class="line">  <span class="comment">// 当 fast 越界（超过 nums 长度）时，停止循环</span></span><br><span class="line">  <span class="keyword">while</span> (fast &lt; n) &#123;</span><br><span class="line">    <span class="comment">// 当前 fast 下标的值与 fast 前一个下标的值不相等的情况下，替换 slow 下标的值</span></span><br><span class="line">    <span class="comment">// 并将 slow 移动至下一位</span></span><br><span class="line">    <span class="keyword">if</span> (nums[fast] !== nums[fast - <span class="number">1</span>]) &#123;</span><br><span class="line">      nums[slow] = nums[fast];</span><br><span class="line">      ++slow;</span><br><span class="line">    &#125;</span><br><span class="line">    ++fast;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> slow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="加一"><a href="#加一" class="headerlink" title="加一"></a>加一</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">plusOne</span>(<span class="params">digits: <span class="built_in">number</span>[]</span>): <span class="title">number</span>[] </span>&#123;</span><br><span class="line">  digits.reverse();</span><br><span class="line">  digits[digits.length] = <span class="number">0</span>;</span><br><span class="line">  digits[<span class="number">0</span>] += <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; digits.length; i++) &#123;</span><br><span class="line">    <span class="keyword">const</span> num = digits[i];</span><br><span class="line">    <span class="keyword">if</span> (num &gt;= <span class="number">10</span>) &#123;</span><br><span class="line">      digits[i + <span class="number">1</span>] += <span class="number">1</span>;</span><br><span class="line">      digits[i] = digits[i] - <span class="number">10</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (digits[digits.length - <span class="number">1</span>] === <span class="number">0</span>) &#123;</span><br><span class="line">    digits.pop();</span><br><span class="line">  &#125;</span><br><span class="line">  digits.reverse();</span><br><span class="line">  <span class="keyword">return</span> digits;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="爬楼梯"><a href="#爬楼梯" class="headerlink" title="爬楼梯"></a>爬楼梯</h3><p>这是一道动态规划的问题，看了教程无数次都没有很好的理解，😭。</p>
+<p>它可以像斐波那契数列一样解决，即从上至下，<code>f(n) = f(n-1) + f(n-2)</code>。</p>
+<p>一般情况下这样的解决方式是没有问题的，但是会造成大量无用计算。</p>
+<p>而动态规划是一种自下而上的算法。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">climbStairs</span>(<span class="params">n: <span class="built_in">number</span></span>): <span class="title">number</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 自己实现动态规划解法</span></span><br><span class="line">  <span class="comment">// 我还是觉得我的好理解哈哈哈哈哈哈哈</span></span><br><span class="line">  <span class="keyword">let</span> a = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">let</span> b = <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">let</span> i = <span class="number">3</span>;</span><br><span class="line">  <span class="keyword">if</span> (n &lt; <span class="number">3</span>) <span class="keyword">return</span> n;</span><br><span class="line">  <span class="keyword">while</span> (i &lt;= n) &#123;</span><br><span class="line">    <span class="keyword">let</span> temp = b;</span><br><span class="line">    b = b + a;</span><br><span class="line">    a = temp;</span><br><span class="line">    i++;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> b;</span><br><span class="line">  <span class="comment">// 官方动态规划解法</span></span><br><span class="line">  <span class="keyword">let</span> p = <span class="number">0</span>, q = <span class="number">0</span>, r = <span class="number">1</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">    p = q</span><br><span class="line">    q = r</span><br><span class="line">    r = p + q</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> r</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="只出现一次的数字"><a href="#只出现一次的数字" class="headerlink" title="只出现一次的数字"></a>只出现一次的数字</h3><p><strong>不需要额外空间的方法，就往位运算上想</strong>。</p>
+<p>异或运算有以下三个性质。</p>
+<ol>
+<li>任何数和 <code>0</code> 做异或运算，结果仍然是原来的数，即 <code>a⊕0=a</code>。</li>
+<li>任何数和其自身做异或运算，结果是 0，即 <code>a⊕a=0</code>。</li>
+<li>异或运算满足交换律和结合律，即 <code>a⊕b⊕a= b⊕a⊕a= b⊕(a⊕a)= b⊕0= b</code>。</li>
+</ol>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">singleNumber</span>(<span class="params">nums: <span class="built_in">number</span>[]</span>): <span class="title">number</span> </span>&#123;</span><br><span class="line">  <span class="comment">// const map = new Map&lt;number, number&gt;()</span></span><br><span class="line">  <span class="comment">// for (let i = 0; i &lt; nums.length; i++) &#123;</span></span><br><span class="line">  <span class="comment">//   const num = nums[i];</span></span><br><span class="line">  <span class="comment">//   map.set(num, map.get(num)? map.get(num) + 1 : 1)</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line">  <span class="comment">// for (const [key, value] of map) &#123;</span></span><br><span class="line">  <span class="comment">//   if (value === 1) return key</span></span><br><span class="line">  <span class="comment">// &#125;</span></span><br><span class="line">  <span class="keyword">return</span> nums.reduce(<span class="function">(<span class="params">a, b</span>) =&gt;</span> a ^ b)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="旋转数组"><a href="#旋转数组" class="headerlink" title="旋转数组"></a>旋转数组</h3><p>给你一个数组，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。</p>
+<p>解法有三：</p>
+<ol>
+<li>额外数组</li>
+<li>环状替换</li>
+<li>翻转</li>
+</ol>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 翻转</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">reverse</span>(<span class="params">nums: <span class="built_in">number</span>[], start: <span class="built_in">number</span>, end: <span class="built_in">number</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">while</span> (start &lt; end) &#123;</span><br><span class="line">    <span class="keyword">let</span> temp = nums[end];</span><br><span class="line">    nums[end] = nums[start];</span><br><span class="line">    nums[start] = temp;</span><br><span class="line">    start++;</span><br><span class="line">    end--;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">rotate</span>(<span class="params">nums: <span class="built_in">number</span>[], k: <span class="built_in">number</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (k &gt; nums.length) k = k % nums.length;</span><br><span class="line">  <span class="comment">// 翻转整个数组</span></span><br><span class="line">  reverse(nums, <span class="number">0</span>, nums.length - <span class="number">1</span>);</span><br><span class="line">  <span class="comment">// 翻转“翻转后的数组”的前 k 个</span></span><br><span class="line">  reverse(nums, <span class="number">0</span>, k - <span class="number">1</span>);</span><br><span class="line">  <span class="comment">// 翻转“翻转后的数组”的后 nums.length - k 个</span></span><br><span class="line">  reverse(nums, k, nums.length - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一位一位的替换（类似于环状替换，但不是）</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">rotate</span>(<span class="params">nums: <span class="built_in">number</span>[], k: <span class="built_in">number</span></span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (k &gt; nums.length) k = k % nums.length;</span><br><span class="line">  <span class="keyword">while</span> (k &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 获取当前数组最后一个元素</span></span><br><span class="line">    <span class="keyword">let</span> prev = nums[nums.length - <span class="number">1</span>];</span><br><span class="line">    <span class="comment">// 循环</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i =<span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">      <span class="comment">// 暂存当前元素</span></span><br><span class="line">      <span class="keyword">let</span> current = nums[i]</span><br><span class="line">      <span class="comment">// 替换当前元素</span></span><br><span class="line">      nums[i] = prev</span><br><span class="line">      prev = current</span><br><span class="line">    &#125;</span><br><span class="line">    k--;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="移动零"><a href="#移动零" class="headerlink" title="移动零"></a>移动零</h3><p>使用双指针，当前指针遇到 0 的时候停下来，与后指针进行替换；</p>
+<p>当两个指针都是 非0 时，各前进一步</p>
+<p>当后指针遇到边界（即数组长度时）跳出循环</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">moveZeroes</span>(<span class="params">nums: <span class="built_in">number</span>[]</span>): <span class="title">void</span> </span>&#123; </span><br><span class="line">  <span class="keyword">let</span> prev: <span class="built_in">number</span> = <span class="number">0</span>, next: <span class="built_in">number</span> = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">while</span> (next &lt; nums.length) &#123;</span><br><span class="line">    <span class="keyword">if</span> (nums[prev] === <span class="number">0</span>) &#123;</span><br><span class="line">      nums[prev] = nums[next]</span><br><span class="line">      nums[next] = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (nums[prev] !== <span class="number">0</span>) &#123;</span><br><span class="line">      prev++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// next++ 必须写在判断外面，不然在遇到连续几个 0 的时候会出现跳过的现象</span></span><br><span class="line">    next++</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/02/08/sort/" rel="prev" title="十大排序算法">
+      <i class="fa fa-chevron-left"></i> 十大排序算法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/03/17/bind/" rel="next" title="bind & apply & call">
+      bind & apply & call <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#算法"><span class="nav-number">1.</span> <span class="nav-text">算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目录"><span class="nav-number">2.</span> <span class="nav-text">目录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Array"><span class="nav-number">2.1.</span> <span class="nav-text">Array</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linked-List"><span class="nav-number">2.2.</span> <span class="nav-text">Linked List</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">2.3.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Binary-Tree"><span class="nav-number">2.4.</span> <span class="nav-text">Binary Tree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分治"><span class="nav-number">2.5.</span> <span class="nav-text">分治</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遍历和搜索"><span class="nav-number">2.6.</span> <span class="nav-text">遍历和搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剪枝"><span class="nav-number">2.7.</span> <span class="nav-text">剪枝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二分查找"><span class="nav-number">2.8.</span> <span class="nav-text">二分查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#贪心"><span class="nav-number">2.9.</span> <span class="nav-text">贪心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态规划"><span class="nav-number">2.10.</span> <span class="nav-text">动态规划</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#树"><span class="nav-number">2.11.</span> <span class="nav-text">树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#位运算"><span class="nav-number">2.12.</span> <span class="nav-text">位运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#并查集"><span class="nav-number">2.13.</span> <span class="nav-text">并查集</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解法"><span class="nav-number">3.</span> <span class="nav-text">解法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#盛最多水的容器"><span class="nav-number">3.1.</span> <span class="nav-text">盛最多水的容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#两数之和"><span class="nav-number">3.2.</span> <span class="nav-text">两数之和</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除排序数组中重复项"><span class="nav-number">3.3.</span> <span class="nav-text">删除排序数组中重复项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加一"><span class="nav-number">3.4.</span> <span class="nav-text">加一</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#爬楼梯"><span class="nav-number">3.5.</span> <span class="nav-text">爬楼梯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#只出现一次的数字"><span class="nav-number">3.6.</span> <span class="nav-text">只出现一次的数字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#旋转数组"><span class="nav-number">3.7.</span> <span class="nav-text">旋转数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移动零"><span class="nav-number">3.8.</span> <span class="nav-text">移动零</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">sheeepli</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sheeepli" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sheeepli" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2624791429@qq.com" title="E-Mail → mailto:2624791429@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sheeepli</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.5.0
+  </div>
+<span class="post-meta-divider">|</span>
+  <div id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

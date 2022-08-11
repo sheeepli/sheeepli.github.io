@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://sheeepli.github.io').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="我也知道有很多工具可以快速搭建 react，甚至只需要写业务代码，但是遇到底层（其实这也不算底层）的东西，或者需要高度自定义的东西的时候，那些脚手架显然是不够用的。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react">
+<meta property="og:url" content="http://sheeepli.github.io/2021/12/29/react/index.html">
+<meta property="og:site_name" content="sheeep&#39;s blog">
+<meta property="og:description" content="我也知道有很多工具可以快速搭建 react，甚至只需要写业务代码，但是遇到底层（其实这也不算底层）的东西，或者需要高度自定义的东西的时候，那些脚手架显然是不够用的。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-12-29T07:45:46.000Z">
+<meta property="article:modified_time" content="2022-08-11T15:38:47.884Z">
+<meta property="article:author" content="sheeepli">
+<meta property="article:tag" content="react">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://sheeepli.github.io/2021/12/29/react/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>react | sheeep's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">sheeep's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://sheeepli.github.io/2021/12/29/react/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sheeepli">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sheeep's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          react
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-29 15:45:46" itemprop="dateCreated datePublished" datetime="2021-12-29T15:45:46+08:00">2021-12-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-11 23:38:47" itemprop="dateModified" datetime="2022-08-11T23:38:47+08:00">2022-08-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>我也知道有很多工具可以快速搭建 react，甚至只需要写业务代码，但是遇到底层（其实这也不算底层）的东西，或者需要高度自定义的东西的时候，那些脚手架显然是不够用的。</p>
+<a id="more"></a>
+
+<p><a href="https://github.com/react-guide/react-basic" target="_blank" rel="noopener">React 设计思想</a></p>
+<p><a href="https://github.com/reactjs/react-basic" target="_blank" rel="noopener">React 设计思想原文</a></p>
+<p><a href="https://fullstackopen.com/" target="_blank" rel="noopener">react 官方推荐全栈课程</a></p>
+<p><code>npx create-react-app part1</code> 在 part1 文件夹中使用官方脚手架创建一个基础的 react 项目。有一点需要注意，<code>npx</code> 执行产生的 <code>lock文件</code> 是 <code>npm</code> 的 <code>lock文件</code>，如果需要用到 <code>yarn</code>，则使用 <code>yarn create react-app part1</code>。</p>
+<p><code>ReactDOM.render(&lt;App /&gt;, document.getElementById(&#39;root&#39;))</code> 这是将其内容渲染到 div 元素中，其 id 值为 ‘root’，该元素在文件 public/index.html 中定义。</p>
+<p>关于<strong>babel</strong>，在使用 create-React-app 创建的 React 应用中转译是自动配置好的。</p>
+<p>与其他语言相反，在 JavaScript 中，this 的值是根据 方法如何调用 来定义的。 当通过引用调用该方法时， this 的值就变成了所谓的全局对象。</p>
+<p>通常在 JSX-模板 中定义事件处理程序并不是一个好的实践。 无论如何，让我们将事件处理程序分离成单独的函数。</p>
+<p>部件并不会重新渲染。 我们可以通过再次调用 ReactDOM.render 方法让组件重新渲染，当然我们现在有 useState 不需要这样子，而且这样也十分耗性能。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> counter = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> refresh = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  ReactDOM.render(<span class="xml"><span class="tag">&lt;<span class="name">App</span> <span class="attr">counter</span>=<span class="string">&#123;counter&#125;</span> /&gt;</span></span>, <span class="built_in">document</span>.getElementById(<span class="string">"root"</span>));</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">refresh();</span><br><span class="line">counter += <span class="number">1</span>;</span><br><span class="line">refresh();</span><br><span class="line">counter += <span class="number">1</span>;</span><br><span class="line">refresh();</span><br></pre></td></tr></table></figure>
+
+<p>实际上， { …clicks } 创建了一个新对象，该对象是具有 clicks 对象的所有属性的副本。 当我们向对象添加新属性时，例如 { …clicks, right: 1 }，新对象中 right 属性的值将为 1。</p>
+<blockquote>
+<p>【Hook 的规则】 不能从循环、条件表达式或任何不是定义组件的函数的地方调用 useState （同样的还有 useEffect 函数，将在后面的课程中介绍）。 这样做是为了确保 Hook 总是以相同的顺序调用，如果不是这样，应用的行为就会不规则。</p>
+</blockquote>
+<p>onClick 与 setTimeout 一样，接收的是一个函数（事件处理程序）而不是一个函数执行（function call）。<br>我们的事件处理被定义为 function call，这意味着事件处理程序<strong>实际上被分配了函数返回的值</strong>，而 console.log 的返回值是 undefined。<br>当然如果函数的返回值是函数的话，即使接收函数执行也没关系。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 可正常执行</span></span><br><span class="line"><span class="keyword">const</span> App = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> [value, setValue] = useState(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> hello = <span class="function">(<span class="params">who</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> handler = <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">`hello <span class="subst">$&#123;who&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">return</span> handler;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &#123;value&#125;</span><br><span class="line">      &lt;button onClick=&#123;hello(<span class="string">"react"</span>)&#125;&gt;button&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">      &lt;button onClick=&#123;hello("sheeep")&#125;&gt;button&lt;/</span>button&gt;</span><br><span class="line">    &lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">  );</span></span><br><span class="line"><span class="regexp">&#125;;</span></span><br></pre></td></tr></table></figure>
+
+<p>Do Not Define Components Within Components 【不要在组件中定义组件】</p>
+<p>列表项，即 map 方法生成的每个元素，都必须有一个唯一的键值: 一个名为 key 的属性。</p>
+<h3 id="json-server"><a href="#json-server" class="headerlink" title="json-server"></a>json-server</h3><p>您可以使用命令 <code>npm install -g json-server</code> 在您的机器上安装 JSON 服务器。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx json-server --port 3001 --watch db.json</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://restcountries.com/v3.1/all" target="_blank" rel="noopener">国家信息</a></p>
+<h3 id="REST"><a href="#REST" class="headerlink" title="REST"></a>REST</h3><p>在 REST 术语中，我们将单个数据对象(如应用中的便笺)称为 resources。 每个资源都有一个唯一的地址——它的 URL。 根据 json-server 使用的一般约定，我们将能够在资源 URL， 即 notes/3 上定位某个便笺，其中 3 是资源的 id。 另一方面， notes url 指向包含所有便笺的资源集合。</p>
+<p>通过 HTTP GET 请求从服务器获取资源。 例如，对 URLnotes/3 的 HTTP GET 请求将返回 id 为 3 的便笺。 对 notes URL 的 HTTP GET 请求将返回所有便笺的列表。</p>
+<p>根据 json 服务器遵守的 REST 约定，通过向 notes URL 发出 HTTP POST 请求来创建、存储新的便笺。 新便笺资源的数据在请求的 body 中发送。</p>
+<p>Json-server 要求以 JSON 格式发送所有数据。 实际上，这意味着数据必须是格式正确的字符串，并且请求必须包含值为 application/json 的 Content-Type 请求头。</p>
+<h3 id="nodemon"><a href="#nodemon" class="headerlink" title="nodemon"></a>nodemon</h3><p>如果我们对应用的代码进行更改，我们必须重新启动应用以查看更改。 我们通过键入 ⌃+C 首先关闭应用，然后重新启动应用。 与 React 中方便的工作流程相比，Node 就有点麻烦，在 React 中，浏览器会在进行更改后自动重新加载。</p>
+<p>解决这个问题的方法是使用 nodemon :</p>
+<p>nodemon 将监视启动 nodemon 的目录中的文件，如果任何文件发生更改，nodemon 将自动重启 node 应用。</p>
+<h3 id="cors"><a href="#cors" class="headerlink" title="cors"></a>cors</h3><p>请记住，同源策略和 CORS 并不是特定于 React 或 Node 的。 它们实际上是 web 应用操作的通用原则。</p>
+<p>我们可以通过使用 Node 的 cors 中间件来允许来自其他源的请求。</p>
+<h3 id="eslint-配置"><a href="#eslint-配置" class="headerlink" title="eslint 配置"></a>eslint 配置</h3><p>npm install eslint –save-dev</p>
+<p>npx eslint –init</p>
+<p>许多公司定义了通过 ESlint 配置文件在整个组织中执行的编码标准。 建议不要一遍又一遍地使用重造轮子，从别人的项目中采用现成的配置到自己的项目中可能是一个好主意。 最近，很多项目都采用了 Airbnb 的 Javascript 风格指南，使用了 Airbnb 的 <a href="https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb" target="_blank" rel="noopener">ESlint</a> 。</p>
+<h3 id="mongo"><a href="#mongo" class="headerlink" title="mongo"></a>mongo</h3><p>pwd: lsy…</p>
+<h3 id="为什么要用-TypeScript？"><a href="#为什么要用-TypeScript？" class="headerlink" title="为什么要用 TypeScript？"></a>为什么要用 TypeScript？</h3><p>在不同的论坛上，你可能会遇到很多支持或反对 TypeScript 的争论。 事实很可能是模糊的: 这取决于你的需求和对 TypeScript 所提供函数的使用。 但无论如何，这里解释了我们为什么认为使用 TypeScript 有一些优势，以及这背后的一些原因。</p>
+<p>首先，TypeScript 提供了类型检查和静态代码分析。 我们可以要求值具有某种类型，并让编译器警告不要使用错误的值。 这可以减少运行时错误，甚至可以减少项目中所需的单元测试数量，至少在涉及纯类型测试时是这样。</p>
+<p>静态程序分析不仅警告错误的类型使用，还有其他错误，比如拼错变量或函数名，或者试图使用超出范围的变量。</p>
+<p>TypeScript 的第二个优点是代码中的类型注解可以作为代码级文档 的类型发挥作用。</p>
+<p>通过函数签名可以很容易地检查函数可以使用哪种类型的参数，以及它将返回哪种类型的数据。 这种类型的类型注解绑定文档将始终是最新的，并且它使新的程序员更容易开始处理现有的项目。 当返回到一个旧的项目时，这也是有帮助的。</p>
+<p>类型可以在整个代码库中重用，对类型定义的更改将自动反映所有使用该类型的地方。 有人可能会说，你可以用 JSDoc 实现类似的代码级文档，但是它与代码的连接不像 TypeScript 的类型那样紧密，因此更有可能不同步，而且也更加冗长。</p>
+<p>TypeScript 的第三个优点是，当 IDE 确切知道您正在处理的数据类型时，它们可以提供更具体、更智能的智能感知。</p>
+<p>当您需要重构代码时，所有这些特性都非常有用。 静态程序分析会警告你代码中的任何错误，智能感知可以提示你可用的属性，甚至可能的重构选项。 代码级文档可以帮助您理解现有的代码。</p>
+<p>在 TypeScript 的帮助下，在早期阶段仅仅通过改变配置就可以很容易地开始使用最新的 JavaScript 语言特性。</p>
+<h3 id="TypeScript-不能解决什么问题？"><a href="#TypeScript-不能解决什么问题？" class="headerlink" title="TypeScript 不能解决什么问题？"></a>TypeScript 不能解决什么问题？</h3><p>如上所述，TypeScript 类型注解和类型检查仅在编译时存在，在运行时不再存在。 即使编译器没有抛出任何错误，运行时仍然是有可能抛出错误的。</p>
+<p>这些运行时错误在处理外部输入(如从网络请求接收的数据)时特别常见。</p>
+<p>最后，下面我们列举了一些 TypeScript 中存在的问题，这些问题值得注意:</p>
+<ul>
+<li><p>Incomplete, invalid or missing types in external libraries【外部库中不完整、无效或缺少的类型】</p>
+<p>在使用外部库时，您可能会发现某些库缺少或以某种方式存在无效的类型声明。 大多数情况下，这是因为库不是用 TypeScript 编写的，而且手动添加类型声明的人并没有很好地处理它。 在这些情况下，您可能需要自己定义类型声明。</p>
+<p>但是，很有可能已经有人为您正在使用的包添加了类型。 因此总是先检查 DefinitelyTyped 或他们的 GitHub 页面。 它们可能是最常用的类型声明文件源。</p>
+<p>否则，你可能需要从熟悉 TypeScript 自己关于类型声明的文档开始。</p>
+</li>
+<li><p>Sometimes type inference needs assistance【有时候类型推断需要帮助】</p>
+<p>TypeScript 中的类型推断非常好，但还不够完美。</p>
+<p>有时候你可能觉得你已经完美的声明了你的类型，但是编译器仍然告诉你这个属性不存在或者这种用法是不允许的。 在这些情况下，您可能需要通过类似“外挂”类型检查来帮助编译器，但是要小心类型强制转换和类型保护。</p>
+<p>使用类型强制转换或类型保护，基本上就是向编译器说明值确实是您声明的类型。</p>
+<p>你可能想看看 TypeScript 关于 Type Assertions 和 Type Guards 的文档。</p>
+</li>
+<li><p>Mysterious type errors【神秘的类型错误】</p>
+<p>类型系统给出的错误有时可能很难理解，特别是当您使用复杂类型时。</p>
+<p><strong>按照经验法则，TypeScript 错误消息在消息末尾具有最有用的信息</strong>。</p>
+<p>当你遇到长长的令人困惑的信息时，从最后开始阅读。</p>
+</li>
+</ul>
+<h3 id="types-npm-package"><a href="#types-npm-package" class="headerlink" title="@types/{npm_package}"></a>@types/{npm_package}</h3><p>通常，现有包的类型可以在 npm 中的 @types-organization 中找到，您可以通过安装一个名为@types /-prefix 的 npm 包将相关类型添加到项目中。 例如: npm install –save-dev @types/react @types/express @types/lodash @types/jest @types/mongoose 等等。 @types/* 由 Definitely typed 维护，这是一个社区项目，其目标是将所有的类型维护在一个地方。</p>
+<p><a href="https://www.staging-typescript.org/zh/tsconfig" target="_blank" rel="noopener">tsconfig</a></p>
+<h3 id="基本的-TSConfig"><a href="#基本的-TSConfig" class="headerlink" title="基本的 TSConfig"></a>基本的 TSConfig</h3><p>根据你要在其中运行代码的不同的 JavaScript 运行时环境，你可以在 github.com/tsconfig/bases 上寻找一个合适的基本配置。 你可以通过扩展这些已经处理过不同的 JavaScript 运行时环境的 tsconfig.json 文件来简化你项目中的 tsconfig.json。</p>
+<p>举个例子，如果你的项目是基于 Node.js 12.x 写的，那么你可以使用 npm 模块：@tsconfig/node12：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"extends"</span>: <span class="string">"@tsconfig/node12/tsconfig.json"</span>,</span><br><span class="line">  <span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"preserveConstEnums"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"include"</span>: [<span class="string">"src/**/*"</span>],</span><br><span class="line">  <span class="attr">"exclude"</span>: [<span class="string">"node_modules"</span>, <span class="string">"**/*.spec.ts"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="eslint"><a href="#eslint" class="headerlink" title="eslint"></a>eslint</h3><p>如果我们想要阻止开发人员使用 any 类型，该怎么办？ 幸运的是，除了 tsconfig.json 之外，我们还有其他方法来强制执行编码样式。 我们能做的就是用 eslint 来管理我们的代码。</p>
+<p>让我们安装 eslint 和它的 TypeScript 扩展:</p>
+<p>npm install –save-dev eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser</p>
+<p>我们将 eslint 配置为 disallow explicit any， 将如下规则写入 .eslintrc:</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"parser"</span>: <span class="string">"@typescript-eslint/parser"</span>,</span><br><span class="line">  <span class="attr">"parserOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"ecmaVersion"</span>: <span class="number">11</span>,</span><br><span class="line">    <span class="attr">"sourceType"</span>: <span class="string">"module"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"plugins"</span>: [<span class="string">"@typescript-eslint"</span>],</span><br><span class="line">  <span class="attr">"rules"</span>: &#123;</span><br><span class="line">    <span class="attr">"@typescript-eslint/no-explicit-any"</span>: <span class="number">2</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在推荐的设置之上，我们应该尝试熟悉这一章节所需的编码风格，并将每行代码末尾的分号设置为 required。</p>
+<p>所以我们将使用下面的 .eslintrc</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"extends"</span>: [</span><br><span class="line">    <span class="string">"eslint:recommended"</span>,</span><br><span class="line">    <span class="string">"plugin:@typescript-eslint/recommended"</span>,</span><br><span class="line">    <span class="string">"plugin:@typescript-eslint/recommended-requiring-type-checking"</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">"plugins"</span>: [<span class="string">"@typescript-eslint"</span>],</span><br><span class="line">  <span class="attr">"env"</span>: &#123;</span><br><span class="line">    <span class="attr">"node"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"es6"</span>: <span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"rules"</span>: &#123;</span><br><span class="line">    <span class="attr">"@typescript-eslint/semi"</span>: [<span class="string">"error"</span>],</span><br><span class="line">    <span class="attr">"@typescript-eslint/explicit-function-return-type"</span>: <span class="string">"off"</span>,</span><br><span class="line">    <span class="attr">"@typescript-eslint/explicit-module-boundary-types"</span>: <span class="string">"off"</span>,</span><br><span class="line">    <span class="attr">"@typescript-eslint/restrict-template-expressions"</span>: <span class="string">"off"</span>,</span><br><span class="line">    <span class="attr">"@typescript-eslint/restrict-plus-operands"</span>: <span class="string">"off"</span>,</span><br><span class="line">    <span class="attr">"@typescript-eslint/no-unused-vars"</span>: [</span><br><span class="line">      <span class="string">"error"</span>,</span><br><span class="line">      &#123; <span class="attr">"argsIgnorePattern"</span>: <span class="string">"^_"</span> &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"no-case-declarations"</span>: <span class="string">"off"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"parser"</span>: <span class="string">"@typescript-eslint/parser"</span>,</span><br><span class="line">  <span class="attr">"parserOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"project"</span>: <span class="string">"./tsconfig.json"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://fullstackopen.com/zh/part9/%E7%89%88%E7%9A%84express%E5%BA%94%E7%94%A8" target="_blank" rel="noopener">https://fullstackopen.com/zh/part9/%E7%89%88%E7%9A%84express%E5%BA%94%E7%94%A8</a></p>
+<p>除非没有其他方法，否则我们永远不应该使用类型断言，因为我们总是有可能断言对象的类型不合适，从而导致严重的运行时错误。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> npx eslint --init</span></span><br><span class="line">√ How would you like to use ESLint? · style</span><br><span class="line">√ What type of modules does your project use? · commonjs</span><br><span class="line">√ Which framework does your project use? · none</span><br><span class="line">√ Does your project use TypeScript? · Yes</span><br><span class="line">√ Where does your code run? · browser</span><br><span class="line">√ How would you like to define a style for your project? · prompt</span><br><span class="line">√ What format do you want your config file to be in? · JavaScript</span><br><span class="line">√ What style of indentation do you use? · 4</span><br><span class="line">√ What quotes do you use for strings? · single</span><br><span class="line">√ What line endings do you use? · unix</span><br><span class="line">√ Do you require semicolons? · No / Yes</span><br></pre></td></tr></table></figure>
+
+<h2 id="ts-react"><a href="#ts-react" class="headerlink" title="ts react"></a>ts react</h2><p>依旧是 npx create-react-app 但是加了一些参数，让它创建（下载）的模板使用的是 typescript</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npx create-react-app my-app --template typescript</span><br><span class="line"></span><br><span class="line">yarn create react-app my-app --template typescript</span><br></pre></td></tr></table></figure>
+
+<p>如果你浏览这些文件和文件夹，你会发现这个应用和你用纯 JavaScript 初始化的应用没什么不同。 基本上，唯一的区别是 .js 和我.jsx 文件现在改名为 .ts 和 .tsx 文件，它们包含一些类型注解，根文件夹还包含一个 tsconfig.json 文件。</p>
+<p>让我们看看为我们创建的 tsconfig.json 文件。 文件中的所有内容都应该差不多正常，只是目前的配置还允许编译 JavaScript 文件，因为 allowJs 被设置为 true。 如果你需要混合使用 TypeScript 和 JavaScript (例如，如果你正在将一个 JavaScript 项目转换成 TypeScript 或者其他原因) ，那么这样做是可以的，但是我们希望我们的应用是纯粹的 TypeScript，所以让我们把这个设置改为 false。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/react/" rel="tag"># react</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/28/ts/" rel="prev" title="关于 ts 的东西">
+      <i class="fa fa-chevron-left"></i> 关于 ts 的东西
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/29/diary-21-52/" rel="next" title="diary-21-52">
+      diary-21-52 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#json-server"><span class="nav-number">1.</span> <span class="nav-text">json-server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#REST"><span class="nav-number">2.</span> <span class="nav-text">REST</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nodemon"><span class="nav-number">3.</span> <span class="nav-text">nodemon</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cors"><span class="nav-number">4.</span> <span class="nav-text">cors</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#eslint-配置"><span class="nav-number">5.</span> <span class="nav-text">eslint 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mongo"><span class="nav-number">6.</span> <span class="nav-text">mongo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要用-TypeScript？"><span class="nav-number">7.</span> <span class="nav-text">为什么要用 TypeScript？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TypeScript-不能解决什么问题？"><span class="nav-number">8.</span> <span class="nav-text">TypeScript 不能解决什么问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#types-npm-package"><span class="nav-number">9.</span> <span class="nav-text">@types&#x2F;{npm_package}</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本的-TSConfig"><span class="nav-number">10.</span> <span class="nav-text">基本的 TSConfig</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#eslint"><span class="nav-number">11.</span> <span class="nav-text">eslint</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ts-react"><span class="nav-number"></span> <span class="nav-text">ts react</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">sheeepli</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sheeepli" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sheeepli" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2624791429@qq.com" title="E-Mail → mailto:2624791429@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sheeepli</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.5.0
+  </div>
+<span class="post-meta-divider">|</span>
+  <div id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

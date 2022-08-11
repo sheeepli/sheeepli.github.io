@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://sheeepli.github.io').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="这两天需要做一个可以高度自定义的报表，项目不紧迫，但是考虑到完善性方面，决定使用 reportBro 插件，高度自由，没有框框架架的约束。 一方面记录这个插件，一方面记录在 react 中使用 Jquery 插件。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="报表插件 reportBro 的使用">
+<meta property="og:url" content="http://sheeepli.github.io/2019/12/27/reportbro/index.html">
+<meta property="og:site_name" content="sheeep&#39;s blog">
+<meta property="og:description" content="这两天需要做一个可以高度自定义的报表，项目不紧迫，但是考虑到完善性方面，决定使用 reportBro 插件，高度自由，没有框框架架的约束。 一方面记录这个插件，一方面记录在 react 中使用 Jquery 插件。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://sheeepli.github.io/2019/12/27/reportbro/1577689351.jpg">
+<meta property="article:published_time" content="2019-12-27T12:34:22.000Z">
+<meta property="article:modified_time" content="2022-08-11T15:38:47.885Z">
+<meta property="article:author" content="sheeepli">
+<meta property="article:tag" content="react">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="插件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://sheeepli.github.io/2019/12/27/reportbro/1577689351.jpg">
+
+<link rel="canonical" href="http://sheeepli.github.io/2019/12/27/reportbro/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>报表插件 reportBro 的使用 | sheeep's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">sheeep's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://sheeepli.github.io/2019/12/27/reportbro/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="sheeepli">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sheeep's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          报表插件 reportBro 的使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-12-27 20:34:22" itemprop="dateCreated datePublished" datetime="2019-12-27T20:34:22+08:00">2019-12-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-11 23:38:47" itemprop="dateModified" datetime="2022-08-11T23:38:47+08:00">2022-08-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这两天需要做一个可以高度自定义的报表，项目不紧迫，但是考虑到完善性方面，决定使用 reportBro 插件，高度自由，没有框框架架的约束。</p>
+<p>一方面记录这个插件，一方面记录在 react 中使用 Jquery 插件。</p>
+<a id="more"></a>
+
+<h2 id="关于-reportBro"><a href="#关于-reportBro" class="headerlink" title="关于 reportBro"></a>关于 reportBro</h2><p>在浏览器中设计报告，轻松生成PDF和Excel文件。</p>
+<p>废话不多说，直接上<a href="https://www.reportbro.com/" target="_blank" rel="noopener">官网</a>最简demo。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">header</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"dist/reportbro.css"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdnjs.cloudflare.com/ajax/libs/autosize.js/3.0.20/autosize.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.8.0/JsBarcode.all.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"dist/reportbro.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"reportbro"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="javascript">    $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        $(<span class="string">"#reportbro"</span>).reportBro(&#123;&#125;);</span></span><br><span class="line">    &#125;);</span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>当然，里面 dist 文件夹的内容是使用<a href="https://github.com/jobsta/reportbro-designer.git" target="_blank" rel="noopener">源码</a>打包成的。</p>
+<p>还有一个服务端的用于生成 PDF 的源码，源码<a href="https://github.com/jobsta/reportbro-lib.git" target="_blank" rel="noopener">地址</a>，这个服务端已经超出了我的能力范围了，所以先不讨论服务端，我们就只讨论前端展示以及数据存储。</p>
+<p>来啦，大家期待的图片</p>
+<p><img src="1577689351.jpg" alt="图片，如果图片没有了那就自己动手丰衣足食呀"></p>
+<p>有没有觉得很奇怪的地方，有就对了，这里我可是翻译过来的哈，原版是没有翻译的哦。</p>
+<p>这里的很多东西都是可以配置的，在 <code>$(&quot;#reportbro&quot;).reportBro({/* 是这里哦 */})</code> 中传入一个配置对象，没错，就像大多数的插件一样。</p>
+<p>接下来让我看看有什么配置项叭，如果想要直接看官方文档的也可以直接看官方文档（翻译一下就是中文了哈哈哈哈）。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 某某 js 文件</span></span><br><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> rb = $(<span class="string">"#reportbro"</span>).reportBro(&#123;</span><br><span class="line">    adminMode: <span class="literal">true</span>,                                         <span class="comment">// Boolean 是否允许添加/修改/删除 parameters</span></span><br><span class="line">    fonts:[</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="string">'Courier'</span>, <span class="attr">value</span>: <span class="string">'courier'</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="string">'Helvetica'</span>, <span class="attr">value</span>: <span class="string">'helvetica'</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="string">'Times New Roman'</span>, <span class="attr">value</span>: <span class="string">'times'</span> &#125;</span><br><span class="line">    ],                                                       <span class="comment">// Array 默认字体</span></span><br><span class="line">    additionalFonts:[],                                      <span class="comment">// Array 添加字体，格式应该更 fonts 相同，但是还需要自行在页面中添加相对应的字体 @font-face</span></span><br><span class="line">    cmdExecutedCallback: <span class="literal">null</span>,                               <span class="comment">// ？ Function 执行命令时调用的功能</span></span><br><span class="line">    enableSpreadsheet: <span class="literal">true</span>,                                 <span class="comment">// ？ Boolean 禁止之后将隐藏电子表格的文本、图片、表格、条纹码功能，并在预览选项卡中没有显示 xlsx 功能</span></span><br><span class="line">    localStorageReportKey: <span class="literal">null</span>,                             <span class="comment">// String 在保存报表时将报表保存至本地存储的 key 值</span></span><br><span class="line">    locale: &#123; <span class="comment">/*...*/</span> &#125;,                                     <span class="comment">// Object 这个太长了，就只是语言的本地化，如果嫌每次添加这个很烦，可以 /src/i18n/ 中添加自己所需要的语言，至于翻译请自行谷歌</span></span><br><span class="line">    localeKey: <span class="string">"en_us"</span>,                                      <span class="comment">// String 插件默认拥有两种语言，英语和德语（de_de），需要其他的可以自己添加，对应的是变量名称</span></span><br><span class="line">    menuShowButtonLabels: <span class="literal">false</span>,                             <span class="comment">// Boolean 是否显示操作栏左侧按钮文字，(save, undo/redo, preview)</span></span><br><span class="line">    menuShowDebug: <span class="literal">false</span>,                                    <span class="comment">// Boolean 在操作栏左侧显示 Debug 选项，如果只是普通用户的话使用不到，就保持默认就好了</span></span><br><span class="line">    menuSidebar: <span class="literal">false</span>,                                      <span class="comment">// Boolean 操作栏是否显示在页面右侧，true——顶部，false——右侧</span></span><br><span class="line">    patternCurrencySymbol: <span class="string">'$'</span>,                              <span class="comment">// ？ String 货币符号</span></span><br><span class="line">    patternLocale: <span class="string">'en'</span>,                                     <span class="comment">// ？ String 地区 当日期和数字格式化的时候，使用的是这个地区格式</span></span><br><span class="line">    patternDates: [</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="string">'d.M.yyyy'</span>, <span class="attr">description</span>: <span class="string">'patternDate1'</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="string">'d.M.yy, H:mm'</span>, <span class="attr">description</span>: <span class="string">'patternDate2'</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="string">'d/MMM/yyyy'</span>, <span class="attr">description</span>: <span class="string">'patternDate3'</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="string">'MM/dd/yyyy'</span>, <span class="attr">description</span>: <span class="string">'patternDate4'</span> &#125;</span><br><span class="line">    ],                                                       <span class="comment">// Array 默认的日期格式化，尽量不要修改</span></span><br><span class="line">    patternNumbers: [</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="string">'#,##0'</span>, <span class="attr">description</span>: <span class="string">'patternNumber1'</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="string">'0.000'</span>, <span class="attr">description</span>: <span class="string">'patternNumber2'</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="string">'0.00##'</span>, <span class="attr">description</span>: <span class="string">'patternNumber3'</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="string">'#,##0.00'</span>, <span class="attr">description</span>: <span class="string">'patternNumber4'</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="string">'$ #,##0.00'</span>, <span class="attr">description</span>: <span class="string">'patternNumber5'</span> &#125;</span><br><span class="line">    ],                                                       <span class="comment">// Array 默认的数字格式化，尽量不要修改</span></span><br><span class="line">    patternAdditionalDates: [],                              <span class="comment">// Array 自定义日期格式化，格式与 patternDates 相同</span></span><br><span class="line">    patternAdditionalNumbers: [],                            <span class="comment">// Array 自定义数字格式化，格式与 patternNumbers 相同</span></span><br><span class="line">    reportServerTimeout: <span class="string">'20000'</span>,                            <span class="comment">// String 服务器请求超时时间</span></span><br><span class="line">    reportServerUrl: <span class="string">"https://www.reportbro.com/report/run"</span>, <span class="comment">// String 将页面解析并放回 PDF 的服务器地址</span></span><br><span class="line">    saveCallback: <span class="literal">null</span>,                                      <span class="comment">// Function 点击保存之后的回调</span></span><br><span class="line">    showGrid: <span class="literal">true</span>,                                          <span class="comment">// Boolean 是否显示网格，其实没有网格，只是上面的一个个标准化的点</span></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>对于上面 <code>？</code> 部分我也不是很懂具体怎么用，等我需要的时候再接着看呗（不存在的）。</p>
+<p>说回正经的，上面最迷惑的莫过于 saveCallback，这个也是我们必须要用到的，可是我们在哪里触发保存呢，一开始我也找过文档，在 API 中有提过 save 方法，然后它又把问题抛了回来，之后尝试在配置中添加 saveCallback（值不为 null） 之后，在操作栏上就出现了保存的按钮。艹（中日双语）。</p>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><p>现在我们来聊一下关于那些令人着迷的 API 叭。</p>
+<p>其实这个东西我不是很想写，毕竟我们常用到的预览、保存、撤销、重做都是操作栏写好了的。而其他的那些我们又用不到。</p>
+<p>好吧，在二次开发中有些不常用的确是用得到。</p>
+<p>这里我就写两个</p>
+<ul>
+<li><p>getReport()</p>
+<p>返回一个包含着这个 report 的对象。</p>
+</li>
+<li><p>previewWithData(data)</p>
+<p>与 preview() 相同，但是这个使用的是实际数据而非测试数据（parameters 填写时可以添加）。</p>
+<p>使用方法如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rb.previewWithData(&#123;</span><br><span class="line">  money: <span class="number">10000</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>随便找个按钮执行就完了，rb 指的是初始化之后的对象，data 必须为一个对象，对象中的属性需要根据 parameters 做出相对应的修改。</p>
+<p>比如我们在 parameters 中定义一个 money 参数（测试数据为 10），并将他添加到 content 中，点击按钮之后看到的值就是 10000 而不是测试的 10。</p>
+</li>
+</ul>
+<p>大概其他方法也是同样的，所以就告辞，<code>(●&#39;◡&#39;●)</code>。</p>
+<h2 id="关于-parameters"><a href="#关于-parameters" class="headerlink" title="关于 parameters"></a>关于 parameters</h2><p>上面说到 previewWithData(data) 这个功能，这里就必须要来讲一讲与 data 有关的 parameters 的属性问题。</p>
+<p>我们在添加 parameters 时，允许我们给参数添加类型，其中包括文本、数字、布尔值、日期、图片、列表、简单列表、集合、总和、平均值。</p>
+<p>假设我们现有有这么一个报表，它包含了各种参数 text, number, boolean, date, image, list, simpleList, collection, sum, average。</p>
+<p>我们需要传入的 data 要与之相应类型才行，且 data 必须是对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data = &#123;</span><br><span class="line">  text: <span class="string">'asdfgh'</span>,</span><br><span class="line">  number: <span class="number">123456</span>,</span><br><span class="line">  boolean: <span class="literal">true</span>,</span><br><span class="line">  date: <span class="keyword">new</span> <span class="built_in">Date</span>(),</span><br><span class="line">  image: ???,</span><br><span class="line">  list: [],</span><br><span class="line">  simpleList: [],</span><br><span class="line">  collection: &#123;&#125;,</span><br><span class="line">  sum: ???,</span><br><span class="line">  average: ???</span><br><span class="line">&#125;: &#123;</span><br><span class="line">  text: <span class="built_in">String</span>,</span><br><span class="line">  number: <span class="built_in">Number</span>,</span><br><span class="line">  boolean: <span class="built_in">Boolean</span>, <span class="comment">// 输入任意值都允许打印？？？</span></span><br><span class="line">  date: <span class="built_in">Date</span></span><br><span class="line">  image: ???, <span class="comment">// 未知输入</span></span><br><span class="line">  list: <span class="built_in">Array</span>,</span><br><span class="line">  simpleList: <span class="built_in">Array</span>,</span><br><span class="line">  collection: <span class="built_in">Object</span>,</span><br><span class="line">  sum: ???, <span class="comment">// 未知，表达式未知</span></span><br><span class="line">  average: ???  <span class="comment">// 未知，表达式未知</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>reportbro 是这样返回 list 的：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span> &#123;</span><br><span class="line">  docElements: [],</span><br><span class="line">  styles: [],</span><br><span class="line">  version: <span class="number">3</span>,</span><br><span class="line">  parameters: [</span><br><span class="line">    &#123;</span><br><span class="line">      arrayItemType: <span class="built_in">String</span> <span class="string">'string'</span>,</span><br><span class="line">      name: <span class="built_in">String</span> <span class="string">'list'</span>,</span><br><span class="line">      chileren: <span class="built_in">Array</span> [</span><br><span class="line">        &#123;</span><br><span class="line">          arrayItemType: <span class="built_in">String</span> <span class="string">'string'</span>,</span><br><span class="line">          <span class="built_in">eval</span>: <span class="built_in">Boolean</span> <span class="literal">false</span>,</span><br><span class="line">          expression: <span class="built_in">String</span> <span class="string">''</span>,</span><br><span class="line">          id: <span class="built_in">Number</span> <span class="number">2</span>,</span><br><span class="line">          name: <span class="built_in">String</span> <span class="string">'row_number'</span></span><br><span class="line">          nullable: <span class="built_in">Boolean</span> <span class="literal">false</span>,</span><br><span class="line">          pattern: <span class="built_in">String</span> <span class="string">''</span>,</span><br><span class="line">          showOnlyNameType: <span class="built_in">Boolean</span> <span class="literal">true</span>,</span><br><span class="line">          testData: <span class="built_in">String</span> <span class="string">''</span>,</span><br><span class="line">          type: <span class="built_in">String</span> <span class="string">'number'</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">/* more */</span></span><br><span class="line">      ],</span><br><span class="line">      <span class="built_in">eval</span>: <span class="built_in">Boolean</span> <span class="literal">false</span>,</span><br><span class="line">      expression: <span class="built_in">String</span> <span class="string">''</span>,</span><br><span class="line">      id: <span class="built_in">Number</span> <span class="number">1</span>,</span><br><span class="line">      nullable: <span class="built_in">Boolean</span> <span class="literal">false</span>,</span><br><span class="line">      pattern: <span class="built_in">String</span> <span class="string">''</span>,</span><br><span class="line">      showOnlyNameType: <span class="built_in">Boolean</span> <span class="literal">false</span>,</span><br><span class="line">      testData: <span class="built_in">String</span> <span class="string">''</span>,</span><br><span class="line">      type: <span class="built_in">String</span> <span class="string">"array"</span>,</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其实这个 list 就是我们表格的数据，它里面的每一行就是一个 children 数据。</p>
+<p>怎么说呢，要搞出一个适合 array 的内容真的有点难，情况有点多。</p>
+<h2 id="关于中文的支持"><a href="#关于中文的支持" class="headerlink" title="关于中文的支持"></a>关于中文的支持</h2><p>在<a href="https://www.reportbro.com/demos/certificate" target="_blank" rel="noopener">官方示例</a>中有个字体是允许使用中文的，我也不知道为什么我的这个不会提示我输入中文格式不对，反正官方的是会的。</p>
+<p>官方的中文字体库为 <code>fireflysung</code>。如果需要使用到则需要配置 <code>additionalFonts:[{name:&#39;firefly&#39;, value: &#39;firefly&#39;}]</code>，其中 name 是展示供以选择的，而 value 对应的是字体的 ttf 文件以及后台的中文语言包，必须做到前后一致。</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><ol>
+<li>原插件不允许添加中文。需要后台配合修改。</li>
+<li>配置对象不传的话会报错的，所以至少要传一个空对象。</li>
+<li>在 <code>$(&#39;#reportbro&#39;).reportBro(&#39;load&#39;, report)</code> 中 report 有个硬性要求，它不能为 null，并且需要含有三个属性，<code>{styles: [], version: 3, parameters: [], docElements: [],}</code> 其中 version 默认为 3，所以可以不用。另外三个属性在程序中需要遍历，所以必须是个数组。</li>
+<li>在 react 项目中，不知道是我的 state 问题还是什么问题，通过下拉选择的都会 push 进一个数组，导致传到服务器无法解析，或者还没传到服务器就报错，类型不对的错误。</li>
+</ol>
+<h2 id="关于一个莫名其妙的问题"><a href="#关于一个莫名其妙的问题" class="headerlink" title="关于一个莫名其妙的问题"></a>关于一个莫名其妙的问题</h2><p>parameterType 的值为一个只有一个元素的数组，造成原因不明。</p>
+<p>处理方法：三元判断 parameterType 的值，如果是数组，值为数组的第一个元素，如果值不是数组，值就是值。</p>
+<h2 id="In-React"><a href="#In-React" class="headerlink" title="In React"></a>In React</h2><p>在 react 中我们要怎么使用 reportBro 呢？这个算不算世纪难题啊，毕竟在那个被 jQuery 统治的时代，许多先人都是通过 jQuery 书写插件。</p>
+<p>我们使用 JQ 需要在页面中引入，所以需要在入口文件中添加 JQ 的引入。如果插件需要其他的js，而又没有模块可以导入，我们都需要在入口文件中把它们引入。（不知道是不是入口文件这个名字，暂定，反正就是一个html）</p>
+<p>以 reportBro 为例</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ReportBro</span> <span class="keyword">extends</span> <span class="title">Component</span></span>&#123;</span><br><span class="line">  componentDidMount() &#123;</span><br><span class="line">  &#125;</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;&gt;</span><br><span class="line">        &lt;div id=<span class="string">"reportbro"</span>&gt;&lt;<span class="regexp">/div&gt;</span></span><br><span class="line"><span class="regexp">      &lt;/</span>&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个是项目中用到 reportBro 的地方，将不需要的略去。</p>
+<blockquote>
+<p>为什么还有个 componentDidMount(){}</p>
+</blockquote>
+<p>别问，问就是等下有用。</p>
+<p>因为 jq 的特性，我们需要在页面加载完之后执行那个 <code>$</code> 符号。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">componentDidMount() &#123;</span><br><span class="line">  $(<span class="built_in">document</span>).ready(<span class="function"><span class="params">()</span> =&gt;</span> &#123; <span class="comment">// 这里推荐使用箭头函数，this 指向因素</span></span><br><span class="line">    $(<span class="string">'#reportbro'</span>).reportBro(&#123;&#125;); <span class="comment">// 初始化</span></span><br><span class="line">    $(<span class="string">'#reportbro'</span>).reportBro(<span class="string">'load'</span>, report); <span class="comment">// 加载原有数据</span></span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>好的，就先到这里吧。</p>
+<p>告辞<code>(●&#39;◡&#39;●)</code>。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/react/" rel="tag"># react</a>
+              <a href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag"># 前端</a>
+              <a href="/tags/%E6%8F%92%E4%BB%B6/" rel="tag"># 插件</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/25/compare/" rel="prev" title="比较两个数据是否相同">
+      <i class="fa fa-chevron-left"></i> 比较两个数据是否相同
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/30/todo/" rel="next" title="todo">
+      todo <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于-reportBro"><span class="nav-number">1.</span> <span class="nav-text">关于 reportBro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#API"><span class="nav-number">2.</span> <span class="nav-text">API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于-parameters"><span class="nav-number">3.</span> <span class="nav-text">关于 parameters</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于中文的支持"><span class="nav-number">4.</span> <span class="nav-text">关于中文的支持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事项"><span class="nav-number">5.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于一个莫名其妙的问题"><span class="nav-number">6.</span> <span class="nav-text">关于一个莫名其妙的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#In-React"><span class="nav-number">7.</span> <span class="nav-text">In React</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">sheeepli</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sheeepli" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sheeepli" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2624791429@qq.com" title="E-Mail → mailto:2624791429@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sheeepli</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.1
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.5.0
+  </div>
+<span class="post-meta-divider">|</span>
+  <div id="busuanzi_container_site_pv">
+    本站总访问量<span id="busuanzi_value_site_pv"></span>次
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
